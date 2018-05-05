@@ -1,5 +1,4 @@
-<center>
-  <h1><u>Grupo Super Metroid</u></h1>
+# Grupo Super Metroid
 
 ![portada](https://vignette.wikia.nocookie.net/metroid/images/d/d6/Super_Metroid_pantalla_inicio_sm.gif/revision/latest?cb=20140318203744&path-prefix=es)
 </center>
