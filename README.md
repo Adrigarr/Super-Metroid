@@ -44,9 +44,9 @@ Super Metroid atacando a Mother Brain
 
 # Alcance
 
-La parte básica del proyecto consistirá en recrear uno de los niveles del juego, una pantalla de incicio que de comienzo al juego y una pantalla de créditos donde aparezcan los nombres de los integrantes del hrupo y artistas de los recursos utilizados. Estos recursos se sacarán de la web [Spriters Resource](https://www.spriters-resource.com/snes/smetroid) y algún otro portal en caso de que sea necesario.
+La parte básica del proyecto consistirá en recrear uno de los niveles del juego, una pantalla de incicio que de comienzo al juego y una pantalla de créditos donde aparezcan los nombres de los integrantes del grupo y artistas de los recursos utilizados. Estos recursos se sacarán de la web [Spriters Resource](https://www.spriters-resource.com/snes/smetroid) y algún otro portal en caso de que sea necesario.
 
-Como añadido se implementarán dos de las mejoras de equipamiento que Samus suele recibir al principio de los juegos de esta Saga, la morfoesfera, que será necesaria para poder acceder a la sala del Boss (Probablemente contra Ridley).
+Como añadido se implementará una de las mejoras de equipamiento que Samus suele recibir al principio de los juegos de esta saga, la morfoesfera, que será necesaria para poder acceder a la sala del Boss (Probablemente contra Ridley).
 
 Se implementará también una segunda mejora de equipamiento, los misiles, pero estos estarán en una sala secreta (mecánica usual en la saga) a la que solo se podrá acceder disparando a una pared concreta del nivel.
 
