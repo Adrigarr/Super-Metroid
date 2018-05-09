@@ -1,10 +1,10 @@
 {
-    "goomba":
+    "piranha":
     {
         "sx": 0,
         "sy": 0,
         "tileW": 32,
-        "tileH": 32,
-        "frames": 3
+        "tileH": 48,
+        "frames": 2
     }
 }
