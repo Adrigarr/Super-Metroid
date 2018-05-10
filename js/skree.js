@@ -2,7 +2,7 @@ function loadSkree(Q) {
 
     Q.animations('skree animation', {
         'live': { frames: [0, 1, 2, 3], rate: 1 / 2 },
-        'die': { frames: [2], loop: false }
+        'die': { frames: [4], loop: false }
     });
     /**
      * Clase que representa al enemigo Skree.
@@ -23,7 +23,8 @@ function loadSkree(Q) {
                 /**
                  * Parámetros de velocidad del Skree.
                  */
-                 gravity: 0,
+                 gravityX: 0,
+                 gravityY: 10,
                 /**
                  * Atributos adicionales.
                  */
