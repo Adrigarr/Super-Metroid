@@ -36,6 +36,7 @@ window.addEventListener('load', function() {
     loadBloopa(Q);
     loadZoomer(Q);
     loadSkree(Q);
+    loadSpacePirate(Q);
     //loadPiranha(Q);
 
     loadCoin(Q);
@@ -48,12 +49,13 @@ window.addEventListener('load', function() {
     /**
      * Cargamos los ficheros que necesitamos para el juego.
      */
-    Q.loadTMX('level.tmx, mainTitle.png, mario_small.png, mario_small.json, zoomer.png, zoomer.json, skree.png, skree.json, goomba.png, goomba.json, bloopa.png, bloopa.json, piranha.png, piranha.json, princess.png, coin.png, coin.json, music_main.mp3, music_main.ogg, music_die.mp3, music_die.ogg, music_level_complete.mp3, music_level_complete.ogg, coin.mp3, coin.ogg', function() {
+    Q.loadTMX('level.tmx, mainTitle.png, mario_small.png, mario_small.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, goomba.png, goomba.json, bloopa.png, bloopa.json, piranha.png, piranha.json, princess.png, coin.png, coin.json, music_main.mp3, music_main.ogg, music_die.mp3, music_die.ogg, music_level_complete.mp3, music_level_complete.ogg, coin.mp3, coin.ogg', function() {
         Q.compileSheets('mario_small.png', 'mario_small.json');
         Q.compileSheets('goomba.png', 'goomba.json');
         Q.compileSheets('bloopa.png', 'bloopa.json');
         Q.compileSheets('zoomer.png', 'zoomer.json');
         Q.compileSheets('skree.png', 'skree.json');
+        Q.compileSheets('space_pirate.png', 'space_pirate.json');
         //Q.compileSheets('piranha.png', 'piranha.json');
         Q.compileSheets('coin.png', 'coin.json');
         Q.stageScene('mainTitle');
