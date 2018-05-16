@@ -10,6 +10,7 @@ function loadLevel1(Q) {
         var bloopa = stage.insert(new Q.Bloopa());
         var zoomer = stage.insert(new Q.Zoomer());
         var skree = stage.insert(new Q.Skree());
+        var space_pirate = stage.insert(new Q.SpacePirate());
         //var piranha = stage.insert(new Q.Piranha());
         var princess = stage.insert(new Q.Princess());
 
