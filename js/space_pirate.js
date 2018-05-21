@@ -1,9 +1,9 @@
 function loadSpacePirate(Q) {
     
     Q.animations('space_pirate animation', {
-        'live': { frames: [2, 1, 0, 1], rate: 1 / 1.2 },
-        'walkL': {frames: [3, 2, 1, 0, 11, 10, 9, 8], rate: 1 / 2},
-        'walkR': {frames: [0, 1, 2, 3, 8, 9, 10, 11], rate: 1 / 2},
+        'patrol': { frames: [1, 2, 1, 0], rate: 1 / 1.2 },
+        'walkL':{ frames: [3, 2, 1, 0, 11, 10, 9, 8], rate: 1 / 2},
+        'walkR':{ frames: [0, 1, 2, 3, 8, 9, 10, 11], rate: 1 / 2},
         'die': { frames: [2], loop: false }
     });
     /**
@@ -86,31 +86,34 @@ function loadSpacePirate(Q) {
         },
 
         turn_left: function() { // WIP
-            this.p.direction = 'left';
-            
-            this.p.vx = -100;
-            this.p.sheet = 'space_pirate_walk_left';
+            this.p.direction = 'patrolL';
 
-            /*this.p.vx = 0;
+            this.p.vx = 0;
             this.p.sheet = 'space_pirate_patrol_right';
+            this.play('patrol');
 
-            setTimeout(function() { // ¿Cómo puedo pasarle el objeto this.p?
-                //this.p.vx = -100; //Aquí this.p es undefined
-                //this.p.sheet = 'space_pirate_walk_left';
-            }, this.play('live'));*/
+
+            setTimeout(function() {
+               Q('SpacePirate').items[0].p.direction = 'right';
+                Q('SpacePirate').items[0].p.vx = -100;
+                Q('SpacePirate').items[0].p.sheet = 'space_pirate_walk_left';
+            }, 2000);
 
             
         },
 
         turn_right: function() { // WIP
-            this.p.direction = 'right';
-            //this.p.vx = 0;
-            //this.p.sheet = 'space_pirate_patrol_right';
-            //this.play('live');
+            this.p.direction = 'patrolR';
 
+            this.p.vx = 0;
+            this.p.sheet = 'space_pirate_patrol_left';
+            this.play('patrol');
 
-            this.p.vx = 100;
-            this.p.sheet = 'space_pirate_walk_right';
+            setTimeout(function() {
+                Q('SpacePirate').items[0].p.direction = 'right';
+                Q('SpacePirate').items[0].p.vx = 100;
+                Q('SpacePirate').items[0].p.sheet = 'space_pirate_walk_right';
+            }, 2000);
         },
 
         /**
@@ -120,10 +123,12 @@ function loadSpacePirate(Q) {
             if (this.p.die) {
                 this.play('die');
             } else {
-                if (this.p.direction == 'right')
-                    this.play('walkR');
-                else
-                    this.play('walkL');
+                switch(this.p.direction){
+                    case 'right': this.play('walkR'); break;
+                    case 'left': this.play('walkL'); break;
+                    default: this.play('patrol');
+                }
+                    
                 /**
                  * En caso de caerse del escenario, Space_Pirate muere.
                  */

@@ -6,9 +6,9 @@ function loadLevel1(Q) {
         Q.stageTMX('level.tmx', stage);
 
         var mario = stage.insert(new Q.Mario());
-        var goomba = stage.insert(new Q.Goomba());
+        //var goomba = stage.insert(new Q.Goomba());
         var bloopa = stage.insert(new Q.Bloopa());
-        var zoomer = stage.insert(new Q.Zoomer());
+        //var zoomer = stage.insert(new Q.Zoomer());
         var skree = stage.insert(new Q.Skree());
         var space_pirate = stage.insert(new Q.SpacePirate());
         //var piranha = stage.insert(new Q.Piranha());
@@ -18,7 +18,7 @@ function loadLevel1(Q) {
         var coin2 = stage.insert(new Q.Coin({ x: 230, y: 450 }));
         var coin3 = stage.insert(new Q.Coin({ x: 260, y: 450 }));
 
-        stage.add('viewport').follow(mario, {
+        stage.add('viewport').follow(space_pirate, {
             x: true,
             y: true
         }, {
