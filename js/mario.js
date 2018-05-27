@@ -27,13 +27,13 @@ function loadMario(Q) {
                 /**
                  * Posición inicial de Mario.
                  */
-                x: 150,
+                x: 1500,
                 y: 380,
                 direction: 'right',
                 /**
                  * Parámetros de velocidad de Mario.
                  */
-                jumpSpeed: -400,
+                jumpSpeed: -500,
                 speed: 200,
                 vy: 10,
                 /**

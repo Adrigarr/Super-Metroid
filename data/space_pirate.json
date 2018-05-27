@@ -33,5 +33,23 @@
         "tileW": 49.5,
         "tileH": 54,
         "frames": 12
+    },
+
+    "space_pirate_fire_right":
+    {
+        "sx": 0,
+        "sy": 238,
+        "tileW": 46,
+        "tileH": 50,
+        "frames": 5
+    },
+
+    "space_pirate_fire_left":
+    {
+        "sx": 0,
+        "sy": 280,
+        "tileW": 46,
+        "tileH": 50,
+        "frames": 5
     }
 }
