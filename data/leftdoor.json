@@ -1,0 +1,8 @@
+{
+    "leftdoor": {
+        "sx": 8,
+        "sy": 0,
+        "tileW": 8,
+        "tileH": 64
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "rightdoor": {
+        "sx": 0,
+        "sy": 0,
+        "tileW": 8,
+        "tileH": 64
+    }
+}
