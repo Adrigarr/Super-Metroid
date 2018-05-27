@@ -15,14 +15,44 @@
   <script src='lib/quintus_touch.js'></script>
   <script src='lib/quintus_ui.js'></script>
   <script src='super-metroid.js'></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png" />
   <style>
-    canvas {
+    html,
+    body,
+    .container {
+      width: 100vw;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      background-image: url("./images/back.jpg");
+      background-size: 100% 100%;
+    }
+
+    .canvas {
+      padding: 0;
+      margin: auto;
+      width: 400px;
+      height: 300px;
+      display: block;
       background-color: black;
+      position: absolute !important;
+      top: 50px;
+      bottom: 0;
+      right: 0;
+      left: 0;
     }
   </style>
 </head>
 
 <body>
+  <div class="container">
+    <div class="canvas">
+      <canvas id="super-metroid" width="400" height="300"></canvas>
+    </div>
+  </div>
 </body>
 
 </html>

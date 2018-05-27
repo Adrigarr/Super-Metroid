@@ -1,0 +1,79 @@
+{
+    "samus_fire": {
+        "sx": 0,
+        "sy": 0,
+        "tilew": 27,
+        "tileh": 48,
+        "frames": 10
+    },
+    "samus_fire2": {
+        "sx": 0,
+        "sy": 104,
+        "tilew": 34,
+        "tileh": 48,
+        "frames": 4
+    },
+    "samus_fire3": {
+        "sx": 139,
+        "sy": 101,
+        "tilew": 22,
+        "tileh": 58,
+        "frames": 2
+    },
+    "samus_algo": {
+        "sx": 272,
+        "sy": 0,
+        "tilew": 38,
+        "tileh": 48,
+        "frames": 5
+    },
+    "samus_run": {
+        "sx": 0,
+        "sy": 49,
+        "tilew": 39,
+        "tileh": 48,
+        "frames": 10
+    },
+    "samus_run_up": {
+        "sx": 0,
+        "sy": 160,
+        "tilew": 40,
+        "tileh": 48,
+        "frames": 8
+    },
+    "samus_down": {
+        "sx": 0,
+        "sy": 208,
+        "tilew": 24,
+        "tileh": 48,
+        "frames": 6
+    },
+    "samus_fire4": {
+        "sx": 176,
+        "sy": 208,
+        "tilew": 32,
+        "tileh": 56,
+        "frames": 4
+    },
+    "samus_jump_right": {
+        "sx": 0,
+        "sy": 264,
+        "tilew": 32,
+        "tileh": 32,
+        "frames": 8
+    },
+    "samus_jump_left": {
+        "sx": 0,
+        "sy": 296,
+        "tilew": 32,
+        "tileh": 32,
+        "frames": 8
+    },
+    "samus_ball": {
+        "sx": 0,
+        "sy": 328,
+        "tilew": 16,
+        "tileh": 48,
+        "frames": 8
+    }
+}
