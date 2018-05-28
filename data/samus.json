@@ -71,9 +71,9 @@
     },
     "samus_ball": {
         "sx": 0,
-        "sy": 328,
+        "sy": 360,
         "tilew": 16,
-        "tileh": 48,
+        "tileh": 16,
         "frames": 8
     }
 }
