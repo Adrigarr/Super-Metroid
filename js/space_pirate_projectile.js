@@ -1,7 +1,7 @@
 function loadSpacePirateProjectile(Q) {
     
     Q.animations('space_pirate_projectile animation', {
-        'fire': { frames: [0, 1], rate: 1 / 2 }
+        'fire': { frames: [0, 1], rate: 1 / 1.2 }
     });
 
 
@@ -17,9 +17,14 @@ function loadSpacePirateProjectile(Q) {
             });
 
             this.add('2d, animation');
+
             this.on("hit", function (collision) {
                 this.destroy();
             });
+        },
+
+        step: function(dt) {
+            this.play('fire');
         }
     });
 }

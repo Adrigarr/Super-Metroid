@@ -49,6 +49,7 @@ function loadMario(Q) {
             /**
              * Definición de las funciones adicionales.
              */
+             this.on('bump.left, bump.right, bump.top', this, 'collision');
             this.on('die');
             this.on('win');
         },
@@ -81,6 +82,10 @@ function loadMario(Q) {
             Q.audio.stop('music_main.mp3');
             Q.audio.play('music_level_complete.mp3');
             Q.stageScene('endGame', 1, { label: 'You Win' });
+        },
+
+        collision: function(collision) {
+            console.log(collision.obj);
         },
         /**
          * Ejecuta un paso de Mario.

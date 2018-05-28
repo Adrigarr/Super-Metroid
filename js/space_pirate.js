@@ -43,8 +43,8 @@ function loadSpacePirate(Q) {
             /**
              * Definición de las funciones adicionales.
              */
-            this.on('bump.top', this, 'top');
-            this.on('bump.left, bump.right, bump.bottom', this, 'collision');
+            //this.on('bump.top', this, 'top');
+            //this.on('bump.left, bump.right, bump.bottom', this, 'collision');
             this.on('fire_left');
             this.on('fire_right');
             this.on('turn_left');
@@ -79,7 +79,7 @@ function loadSpacePirate(Q) {
         },
         /**
          * En caso de que Mario choque contra él, Mario muere.
-         */
+         
         collision: function(collision) {
             if (collision.obj.isA('Mario')) {
                 if(!this.p.collision){
@@ -87,7 +87,7 @@ function loadSpacePirate(Q) {
                     this.p.collision = true;
                 }
             }
-        },
+        },*/
 
         /**
         *   Se detiene, mira a los lados y gira a la izquierda.
@@ -133,7 +133,11 @@ function loadSpacePirate(Q) {
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_left';
 
-            var projectile = this.stage.insert(new Q.SpacePirateProjectile({ x: this.p.x, y: this.p.y, vx: -100 }));
+            var p = this.p;
+
+            var projectile = this.stage.insert(new Q.SpacePirateProjectile({x: 1700, y: 400, vx: 100}));
+
+            console.log(projectile);
         },
 
         fire_right: function() { // WIP
@@ -159,7 +163,14 @@ function loadSpacePirate(Q) {
                     default: this.play('patrol');
                 }
 
-                var distance = this.p.x - Q('Mario').items[0].p.x;
+                if(Q('Mario')) {
+                    var distance = this.p.x - Q('Mario').items[0].p.x;
+                }
+
+                else {
+                    var distance = 0;
+                }
+                
 
 
                 if(distance < 70 && distance > 0) {

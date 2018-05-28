@@ -47,7 +47,7 @@
     "space_pirate_fire_left":
     {
         "sx": 0,
-        "sy": 280,
+        "sy": 288,
         "tileW": 46,
         "tileH": 50,
         "frames": 5

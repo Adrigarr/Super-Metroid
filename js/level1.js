@@ -13,6 +13,7 @@ function loadLevel1(Q) {
         var space_pirate = stage.insert(new Q.SpacePirate({ x: 1660, y: 500, array: 0, stop_right: 1760, stop_left: 1550 })); // array indica la posición en el array Q('SpacePirate').items que ocupa este pirata en concreto. 
                                                                                                                             // Es necesario especificarlo para que funcionen algunas funciones
                                                                                                                             // stop_right y stop_left son los puntos del eje x donde debe dar la vuelta el pirata en su patrulla
+        //var projectile = stage.insert(new Q.SpacePirateProjectile({x: 1500, y: 463, vx: -100}));
         //var space_pirate2 = stage.insert(new Q.SpacePirate({ x: 1400, y: 400, array: 1 }));
         //var piranha = stage.insert(new Q.Piranha());
         var princess = stage.insert(new Q.Princess());
