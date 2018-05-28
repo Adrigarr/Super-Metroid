@@ -1,0 +1,10 @@
+{
+    "space_pirate_projectile":
+    {
+        "sx": 0,
+        "sy": 0,
+        "tileW": 32,
+        "tileH": 6,
+        "frames": 2
+    }
+}

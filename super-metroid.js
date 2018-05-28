@@ -118,6 +118,7 @@ window.addEventListener('load', function () {
 
 			this.on('bump.bottom', this, 'floor');
 			Q.input.on('up', this, 'jump');
+
 			Q.input.on("fire", this, "fireWeapon");
 			Q.input.on("confirm", this, "changeWeapon");
 		},
@@ -133,6 +134,7 @@ window.addEventListener('load', function () {
 		floor: function () {
 			this.onAir = false;
 		},
+
 		// Acción producida al cambiar de arma (Enter)
 		changeWeapon: function () {
 
@@ -252,7 +254,8 @@ window.addEventListener('load', function () {
 				this.p.h = 48;
 				this.p.w = 27;
 			}
-			
+
+			// Mira arriba
 			if (Q.inputs['S'] && !Q.inputs['down']) {
 				// Movimiento
 				if (this.p.vx != 0) {
@@ -479,6 +482,391 @@ window.addEventListener('load', function () {
 		}
 	});
 
+	Q.animations('zoomer animation', {
+        'zoomerLive': { frames: [0, 1, 2], rate: 1 / 2 },
+        'zoomerDie': { frames: [4], loop: false }
+    });
+    /**
+     * Clase que representa al enemigo Zoomer.
+     */
+    Q.Sprite.extend('Zoomer', {
+        init: function(p) {
+            this._super(p, {
+                sprite: 'zoomer animation',
+                /**
+                 * Sprite del Zoomer.
+                 */
+                sheet: 'zoomer',
+
+                /**
+                 * Parámetros de velocidad del Zoomer.
+                 */
+                speed: 170,
+                vx: 50,
+                /**
+                 * Atributos adicionales.
+                 */
+                die: false,
+                collision: false
+            });
+            /**
+             * Los módulos Quintus necesarios.
+             */
+            this.add('2d, animation, aiBounce');
+            /**
+             * Definición de las funciones adicionales.
+             */
+            //this.on('bump.top', this, 'top');
+            this.on('bump.left, bump.right, bump.top', this, 'hit');
+            this.on('die');
+        },
+        /**
+         * Muere el Zoomer.
+         */
+        die: function() {
+            this.p.die = true;
+            this.p.speed = 0;
+            this.p.vx = 0;
+
+            setTimeout(function() {
+                Q('Zoomer').destroy();
+            }, 200);
+        },
+
+        /**
+         * En caso de que Mario salte encima de él, el Zoomer muere.
+        */
+        hit: function(collision) {
+            if (collision.obj.isA('Weapon')) {
+                if(!this.p.collision){
+                    this.trigger('die');
+                }  
+            }
+        },
+        /**
+         * En caso de que Mario choque contra él, Mario muere.
+         
+        collision: function(collision) {
+            if (collision.obj.isA('Mario')) {
+                if(!this.p.collision){
+                    collision.obj.trigger('die');
+                    this.p.collision = true;
+                }
+            }
+        },*/
+
+
+        /**
+         * Ejecuta un paso de Zoomer.
+         */
+        step: function(dt) {
+            if (this.p.die) {
+                this.play("zoomerDie");
+            } else {
+                this.play("zoomerLive");
+            }
+        }
+    });
+
+
+    Q.animations('skree animation', {
+        'live': { frames: [0, 1, 2, 3], rate: 1 / 2 },
+        'die': { frames: [4], loop: false }
+    });
+    /**
+     * Clase que representa al enemigo Skree.
+     */
+    Q.Sprite.extend('Skree', {
+        init: function(p) {
+            this._super(p, {
+                sprite: 'skree animation',
+                /**
+                 * Sprite del Skree.
+                 */
+                sheet: 'skree',
+                /**
+                 * Posición inicial del Skree.
+                 */
+                x: 1190,
+                y: 500,
+                /**
+                 * Parámetros de velocidad del Skree.
+                 */
+                 gravityY: -10,
+                /**
+                 * Atributos adicionales.
+                 */
+                time_jump: 0,
+                die: false,
+                collision: false
+            });
+            /**
+             * Los módulos Quintus necesarios.
+             */
+            this.add('2d, animation');
+            /**
+             * Definición de las funciones adicionales.
+             */
+            this.on('die');
+        },
+        /**
+         * Muere el Skree.
+         */
+        die: function() {
+            this.p.die = true;
+            this.p.vy = 70;
+            setTimeout(function() {
+                Q('Skree').destroy();
+            }, 200);
+        },
+
+        step: function(dt) {
+            if (this.p.die) {
+                this.play('die');
+            } else {
+                this.play('live');
+                this.p.time_jump += dt;
+                /**
+                 * Si toca está en el suelo, salta.
+                 */
+                if (this.p.vy == 0) {
+                    this.p.vy = -70;
+                    this.p.time_jump = 0;
+                }
+                /**
+                 * Indicamos el tiempo al que baja el Skree.
+                 */
+                if (this.p.time_jump >= 1.5) {
+                    this.p.vy = 70;
+                }
+            }
+        }
+    });
+
+
+    Q.animations('space_pirate_projectile animation', {
+        'fire': { frames: [0, 1], rate: 1 / 1.2 }
+    });
+
+
+   Q.Sprite.extend('SpacePirateProjectile', {
+        init: function (p) {
+            this._super(p, {
+
+                sprite: 'space_pirate_projectile animation',
+                sheet: 'space_pirate_projectile',
+                vy: 0,
+                gravity: false,
+
+            });
+
+            this.add('2d, animation');
+
+            this.on("hit", function (collision) {
+                this.destroy();
+            });
+        },
+
+        step: function(dt) {
+            this.play('fire');
+        }
+    });
+
+    Q.animations('space_pirate animation', {
+        'patrol': { frames: [1, 2, 1, 0], rate: 1 / 1.2 },
+        'walkL': { frames: [3, 2, 1, 0, 11, 10, 9, 8], rate: 1 / 2},
+        'walkR': { frames: [0, 1, 2, 3, 8, 9, 10, 11], rate: 1 / 2},
+        'fireR': { frames: [0, 1, 2, 3, 4, 4, 4], rate: 1 / 2},
+        'fireL': { frames: [4, 3, 2, 1, 0, 0, 0], rate: 1 / 2},
+        'die': { frames: [2], loop: false }
+    });
+    /**
+     * Clase que representa al enemigo Space_Pirate.
+     */
+    Q.Sprite.extend('SpacePirate', {
+        init: function(p) {
+            this._super(p, {
+                sprite: 'space_pirate animation',
+                /**
+                 * Sprite del Space_Pirate.
+                 */
+                sheet: 'space_pirate_walk_right',
+                /**
+                 * Posición inicial del Space_Pirate.
+                 
+                x: 1660,
+                y: 500,*/
+                /**
+                 * Parámetros de velocidad del Space_Pirate.
+                 */
+                speed: 170,
+                vx: 100,
+                /**
+                 * Atributos adicionales.
+                 */
+                direction: 'right',
+                die: false,
+                collision: false
+            });
+            /**
+             * Los módulos Quintus necesarios.
+             */
+            this.add('2d, animation');
+            /**
+             * Definición de las funciones adicionales.
+             */
+            //this.on('bump.top', this, 'top');
+            this.on('bump', this, 'hit');
+            this.on('fire_left');
+            this.on('fire_right');
+            this.on('turn_left');
+            this.on('turn_right');
+            this.on('die');
+        },
+        /**
+         * Muere el Space_Pirate.
+         */
+        die: function() {
+            this.p.die = true;
+            this.p.speed = 0;
+            this.p.vx = 0;
+
+            setTimeout(function() {
+                Q('SpacePirate').destroy();
+            }, 200);
+        },
+
+        /**
+         * En caso de que reciba un disparo, el Space_Pirate muere
+         */
+        hit: function(collision) {
+            if (collision.obj.isA('Weapon')) {
+                if(!this.p.collision){
+                    this.trigger('die');
+                }
+                
+            }
+        },
+        /**
+         * En caso de que Mario choque contra él, Mario muere.
+         
+        collision: function(collision) {
+            if (collision.obj.isA('Mario')) {
+                if(!this.p.collision){
+                    collision.obj.trigger('die');
+                    this.p.collision = true;
+                }
+            }
+        },*/
+
+        /**
+        *   Se detiene, mira a los lados y gira a la izquierda.
+        */
+        turn_left: function() {
+            this.p.direction = 'patrol';
+
+            this.p.vx = 0;
+            this.p.sheet = 'space_pirate_patrol_right';
+
+            var array = this.p.array;
+
+            setTimeout(function() {
+                Q('SpacePirate').items[array].p.direction = 'right';
+                Q('SpacePirate').items[array].p.vx = -100;
+                Q('SpacePirate').items[array].p.sheet = 'space_pirate_walk_left';
+            }, 2000);
+
+            
+        },
+
+        /**
+        *   Se detiene, mira a los lados y gira a la derecha.
+        */
+        turn_right: function() {
+            this.p.direction = 'patrol';
+
+            this.p.vx = 0;
+            this.p.sheet = 'space_pirate_patrol_left';
+
+            var array = this.p.array;
+
+            setTimeout(function() {
+                Q('SpacePirate').items[array].p.direction = 'right';
+                Q('SpacePirate').items[array].p.vx = 100;
+                Q('SpacePirate').items[array].p.sheet = 'space_pirate_walk_right';
+            }, 2000);
+        },
+
+        fire_left: function() { // WIP
+            this.p.direction = 'fireL';
+
+            this.p.vx = 0;
+            this.p.sheet = 'space_pirate_fire_left';
+
+            var p = this.p;
+
+            //var projectile = this.stage.insert(new Q.SpacePirateProjectile({x: p.x-20, y: p.y-20, vx: -100}));
+        },
+
+        fire_right: function() { // WIP
+            this.p.direction = 'fireR';
+
+            this.p.vx = 0;
+            this.p.sheet = 'space_pirate_fire_right';
+        },
+
+        /**
+         * Ejecuta un paso de Space_Pirate.
+         */
+        step: function(dt) {
+            
+            if (this.p.die) {
+                this.play('die');
+            } else {
+                switch(this.p.direction){
+                    case 'right': this.play('walkR'); break;
+                    case 'left': this.play('walkL'); break;
+                    case 'fireR': this.play('fireR'); break;
+                    case 'fireL': this.play('fireL'); break;
+                    default: this.play('patrol');
+                }
+
+                if(Q('Samus')) {
+                    var distance = this.p.x - Q('Samus').items[0].p.x;
+                }
+
+                else {
+                    var distance = 0;
+                }
+
+                if(distance < 70 && distance > 0) {
+                    this.trigger('fire_left');
+                }
+                else if(distance > -70 && distance < 0) {
+                    this.trigger('fire_right');
+                }
+                else if(distance > 200) {
+                    this.p.direction = 'left';
+                    this.p.vx = -100;
+                    this.p.sheet = 'space_pirate_walk_left';
+                }
+                else if(distance < -200) {
+                    this.p.direction = 'right';
+                    this.p.vx = 100;
+                    this.p.sheet = 'space_pirate_walk_right';
+                }
+
+                if(this.p.x >= this.p.stop_right && this.p.vx > 0) {
+                    this.trigger('turn_left');
+                }
+                else if (this.p.x <= this.p.stop_left && this.p.vx < 0) {
+                    this.trigger('turn_right')
+                }
+    
+            }
+        }
+    });
+
 	// Q.imageData = function (img) {
 	// 	var canvas = $("<canvas>").attr({
 	// 		width: img.width,
@@ -549,6 +937,11 @@ window.addEventListener('load', function () {
 		);
 		stage.insert(new Q.Ball());
 		stage.insert(new Q.Missile());
+
+		//var zoomer = stage.insert(new Q.Zoomer({x: 3300, y: 920}));
+        //var skree = stage.insert(new Q.Skree({x: 3300, y: 920}));
+        var space_pirate = stage.insert(new Q.SpacePirate({ x: 2500, y: 1000, array: 0, stop_right: 1760, stop_left: 1550 }));
+
 		stage.add('viewport').follow(samus);
 		stage.viewport.scale = 1;
 		stage.viewport.offsetY = 80;
@@ -556,7 +949,7 @@ window.addEventListener('load', function () {
 	});
 
 	Q.loadTMX(
-		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zebes.tmx',
+		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, zebes.tmx',
 		function () {
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
@@ -564,6 +957,10 @@ window.addEventListener('load', function () {
 			Q.compileSheets('leftdoor.png', 'leftdoor.json');
 			Q.compileSheets('ball.png', 'ball.json');
 			Q.compileSheets('missile.png', 'missile.json');
+			Q.compileSheets('zoomer.png', 'zoomer.json');
+        	Q.compileSheets('skree.png', 'skree.json');
+        	Q.compileSheets('space_pirate.png', 'space_pirate.json');
+        	Q.compileSheets('space_pirate_projectile.png', 'space_pirate_projectile.json');
 			Q.stageScene('level1');
 		}
 	);
