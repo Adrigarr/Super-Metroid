@@ -370,14 +370,37 @@ window.addEventListener('load', function () {
 		}
 	});
 
+	Q.animations('doors', {
+		open: {
+			frames: [2, 4, 6, 7, 7, 7, 0],
+			rate: 1 / 5,
+			loop: false
+		},
+		close: {
+			frames: [7, 6, 4, 2, 0],
+			rate: 1 / 5,
+			loop: false
+		},
+	})
+
 	Q.Sprite.extend('DoorR', {
 		init: function (p) {
 			this._super(p, {
-				sheet: 'rightdoor'
+				sprite: 'doors',
+				sheet: 'rightdoor',
+				lock: false
 			});
+			this.add('animation, tween');
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
-					collision.obj.p.x -= 290;
+					this.play('open');
+					collision.obj.p.lock = true;
+					setTimeout(function () {
+						if (collision.obj.p.lock) {
+							collision.obj.p.x -= 290;
+							collision.obj.p.lock = false;
+						}
+					}, 500);
 				}
 			});
 		}
@@ -386,11 +409,21 @@ window.addEventListener('load', function () {
 	Q.Sprite.extend('DoorL', {
 		init: function (p) {
 			this._super(p, {
-				sheet: 'leftdoor'
+				sprite: 'doors',
+				sheet: 'leftdoor',
+				lock: false
 			});
+			this.add('animation, tween');
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
-					collision.obj.p.x += 290;
+					this.play('open');
+					collision.obj.p.lock = true;
+					setTimeout(function () {
+						if (collision.obj.p.lock) {
+							collision.obj.p.x += 290;
+							collision.obj.p.lock = false;
+						}
+					}, 500);
 				}
 			});
 		}
