@@ -118,7 +118,6 @@ window.addEventListener('load', function () {
 
 			this.on('bump.bottom', this, 'floor');
 			Q.input.on('up', this, 'jump');
-
 			Q.input.on("fire", this, "fireWeapon");
 			Q.input.on("confirm", this, "changeWeapon");
 		},
@@ -126,7 +125,7 @@ window.addEventListener('load', function () {
 			this.checkMovement();
 		},
 		jump: function () {
-			if (!this.onAir) {
+			if (!this.onAir && !Q.inputs['P'] && !Q.inputs['down']) {
 				this.p.y -= 50;
 				this.onAir = true;
 			}
@@ -134,7 +133,6 @@ window.addEventListener('load', function () {
 		floor: function () {
 			this.onAir = false;
 		},
-
 		// Acción producida al cambiar de arma (Enter)
 		changeWeapon: function () {
 
@@ -247,7 +245,14 @@ window.addEventListener('load', function () {
 
 		// Controla todo lo relacionado con el movimiento
 		checkMovement: function () {
-			// Mira arriba
+
+			if(!Q.inputs['P'] && this.p.h != 48){
+				this.p.cx = 13.5;
+				this.p.cy = 24;
+				this.p.h = 48;
+				this.p.w = 27;
+			}
+			
 			if (Q.inputs['S'] && !Q.inputs['down']) {
 				// Movimiento
 				if (this.p.vx != 0) {
@@ -270,7 +275,7 @@ window.addEventListener('load', function () {
 			}
 
 			// Mira abajo
-			else if (Q.inputs['down']) {
+			else if (Q.inputs['down'] && !Q.inputs['P']) {
 				this.p.vx = 0;
 				this.p.vy = 0;
 				if (!Q.inputs['S']) {
@@ -296,6 +301,11 @@ window.addEventListener('load', function () {
 				else this.p.sheet = "samus_jump_left";
 				this.p.last_animation = "jump";
 			} else if (Q.inputs['P'] && this.p.ball) {
+				this.p.vy = 50;
+				this.p.h = 16;
+				this.p.w = 16;
+				this.p.cy = -8;
+				this.p.cx = -8;
 				this.p.sheet = "samus_ball";
 				this.p.last_animation = "ball";
 				this.p.last_vx = this.p.vx;
