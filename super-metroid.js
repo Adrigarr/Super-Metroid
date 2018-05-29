@@ -649,19 +649,22 @@ window.addEventListener('load', function () {
                 // Si Samus se acerca por la izquierda
                 if(distance < 150 && distance > 0 && this.p.lock) {
                 	this.p.lock = false;
-                	this.play('attack');
                 	this.p.vy = 275;
                 	this.p.vx = -175;
                 }
                 // Si Samus se acerca por la derecha
                 else if(distance > -150 && distance < 0 && this.p.lock) {
                 	this.p.lock = false;
-                	this.play('attack');
                 	this.p.vy = 275;
                 	this.p.vx = 175;
                 }
                 else {
-                	this.play('live');
+                	if(this.p.vy > 0){
+                		this.play('attack');
+                	}
+                	else{
+                		this.play('live');
+                	}
                 }
 
                 /**
