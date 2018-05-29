@@ -95,8 +95,8 @@ window.addEventListener('load', function () {
 			this._super(p, {
 				sprite: "samus_anim",
 				sheet: "samus_fire",
-				x: 3728, //3075, 1540, 3220
-				y: 488, //300, 480, 900
+				x: 3715, //3075, 1540, 3220 x: 1700, y: 1672
+				y: 340, //300, 480, 900
 				onAir: false,
 				last_vx: 0,
 				last_y: 0,
@@ -568,8 +568,9 @@ window.addEventListener('load', function () {
     });
 
 
-    Q.animations('skree animation', {
-        'live': { frames: [0, 1, 2, 3], rate: 1 / 2 },
+    Q.animations('skree animation', { // WIPS
+    	'live': { frames: [1], loop: false },
+        'attack': { frames: [0, 1, 2, 3], rate: 1 / 5 },
         'die': { frames: [4], loop: false }
     });
     /**
@@ -584,18 +585,13 @@ window.addEventListener('load', function () {
                  */
                 sheet: 'skree',
                 /**
-                 * Posición inicial del Skree.
-                 */
-                x: 1190,
-                y: 500,
-                /**
                  * Parámetros de velocidad del Skree.
                  */
-                 gravityY: -10,
+                 gravityX: 0,
+                 gravityY: -100,
                 /**
                  * Atributos adicionales.
                  */
-                time_jump: 0,
                 die: false,
                 collision: false
             });
@@ -606,6 +602,8 @@ window.addEventListener('load', function () {
             /**
              * Definición de las funciones adicionales.
              */
+            //this.on('bump.bottom', this, 'bottom');
+            this.on('bump.bottom, bump.right, bump.left', this, 'die'); // WIP cambiar cuando se implemente el sistema de vidas
             this.on('die');
         },
         /**
@@ -619,25 +617,56 @@ window.addEventListener('load', function () {
             }, 200);
         },
 
+        hit: function(collision) {
+            if (collision.obj.isA('Weapon')) {
+                if(!this.p.collision){
+                    this.trigger('die');
+                }
+            }
+        },
+
+        bottom: function(collision) {
+        	if (!collision.obj.isA('Samus')) {
+                if(!this.p.collision){
+                    this.trigger('die');
+                }
+            }
+        },
+
         step: function(dt) {
             if (this.p.die) {
                 this.play('die');
             } else {
-                this.play('live');
-                this.p.time_jump += dt;
-                /**
-                 * Si toca está en el suelo, salta.
-                 */
-                if (this.p.vy == 0) {
-                    this.p.vy = -70;
-                    this.p.time_jump = 0;
+
+                if(Q('Samus')) {
+                    var distance = this.p.x - Q('Samus').items[0].p.x;
                 }
+                else {
+                    var distance = 0;
+                }
+
+                // Si Samus se acerca por la izquierda
+                if(distance < 150 && distance > 0) {
+                	this.play('attack');
+                	this.p.vy = 275;
+                	this.p.vx = -175;
+                }
+                // Si Samus se acerca por la derecha
+                else if(distance > -150 && distance < 0) {
+                	this.play('attack');
+                	this.p.gravityY = 275;
+                	this.p.gravityX = 175;
+                }
+                else {
+                	this.play('live');
+                }
+
                 /**
                  * Indicamos el tiempo al que baja el Skree.
-                 */
+                
                 if (this.p.time_jump >= 1.5) {
                     this.p.vy = 70;
-                }
+                } */
             }
         }
     });
@@ -704,6 +733,7 @@ window.addEventListener('load', function () {
                  * Atributos adicionales.
                  */
                 direction: 'right',
+                lock: true,
                 die: false,
                 collision: false
             });
@@ -715,7 +745,7 @@ window.addEventListener('load', function () {
              * Definición de las funciones adicionales.
              */
             //this.on('bump.top', this, 'top');
-            this.on('bump', this, 'hit');
+            this.on('bump.left, bump.right, bump.top, bump.bottom', this, 'hit');
             this.on('fire_left');
             this.on('fire_right');
             this.on('turn_left');
@@ -773,6 +803,7 @@ window.addEventListener('load', function () {
                 Q('SpacePirate').items[array].p.direction = 'right';
                 Q('SpacePirate').items[array].p.vx = -100;
                 Q('SpacePirate').items[array].p.sheet = 'space_pirate_walk_left';
+                Q('SpacePirate').items[array].p.lock = true;
             }, 2000);
 
 
@@ -793,6 +824,7 @@ window.addEventListener('load', function () {
                 Q('SpacePirate').items[array].p.direction = 'right';
                 Q('SpacePirate').items[array].p.vx = 100;
                 Q('SpacePirate').items[array].p.sheet = 'space_pirate_walk_right';
+                Q('SpacePirate').items[array].p.lock = true;
             }, 2000);
         },
 
@@ -838,31 +870,65 @@ window.addEventListener('load', function () {
                     var distance = 0;
                 }
 
+                // Si Samus se acerca por la izquierda
                 if(distance < 70 && distance > 0) {
+                	this.p.patroling = false;
                     this.trigger('fire_left');
                 }
+                // Si Samus se acerca por la derecha
                 else if(distance > -70 && distance < 0) {
+                	this.p.patroling = false;
                     this.trigger('fire_right');
                 }
-                else if(distance > 200) {
+                else if(distance > 280) {
+                	this.p.patroling = true;
                     this.p.direction = 'left';
                     this.p.vx = -100;
                     this.p.sheet = 'space_pirate_walk_left';
                 }
-                else if(distance < -200) {
+                else if(distance < -280) {
+                	this.p.patroling = true;
                     this.p.direction = 'right';
                     this.p.vx = 100;
                     this.p.sheet = 'space_pirate_walk_right';
                 }
 
-                if(this.p.x >= this.p.stop_right && this.p.vx > 0) {
+                if(this.p.x >= this.p.stop_right && this.p.vx > 0 && this.p.lock) {
+                	this.p.lock = false;
                     this.trigger('turn_left');
                 }
-                else if (this.p.x <= this.p.stop_left && this.p.vx < 0) {
-                    this.trigger('turn_right')
+                else if (this.p.x <= this.p.stop_left && this.p.vx < 0 && this.p.lock) {
+                	this.p.lock = false;
+                    this.trigger('turn_right');
                 }
 
             }
+        }
+    });
+
+Q.animations('kraid animation', { // WIPS
+    	'live': { frames: [0], loop: false }
+    });
+    /**
+     * Clase que representa al enemigo Skree.
+     */
+    Q.Sprite.extend('Kraid', {
+        init: function(p) {
+            this._super(p, {
+                sprite: 'kraid animation',
+                /**
+                 * Sprite del Skree.
+                 */
+                sheet: 'kraid',
+            });
+            /**
+             * Los módulos Quintus necesarios.
+             */
+            this.add('2d, animation');
+        },
+
+        step: function(dt) {
+            this.play('live');
         }
     });
 
@@ -937,18 +1003,18 @@ window.addEventListener('load', function () {
 		stage.insert(new Q.Ball());
 		stage.insert(new Q.Missile());
 
-		//var zoomer = stage.insert(new Q.Zoomer({x: 3300, y: 920}));
-        //var skree = stage.insert(new Q.Skree({x: 3300, y: 920}));
-        var space_pirate = stage.insert(new Q.SpacePirate({ x: 2500, y: 1000, array: 0, stop_right: 1760, stop_left: 1550 }));
+		var zoomer = stage.insert(new Q.Zoomer({x: 2323, y: 1160}));
+        var skree = stage.insert(new Q.Skree({x: 2144, y: 334}));
+        var space_pirate = stage.insert(new Q.SpacePirate({ x: 1700, y: 1672, array: 0, stop_right: 1760, stop_left: 1675 }));
+        var kraid = stage.insert(new Q.Kraid({x: 438, y: 1648}));
 
 		stage.add('viewport').follow(samus);
 		stage.viewport.scale = 1;
 		stage.viewport.offsetY = 80;
-		//stage.add('viewport').follow(mario, { x: true, y: true });
 	});
 
 	Q.loadTMX(
-		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, zebes.tmx',
+		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx',
 		function () {
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
@@ -960,6 +1026,7 @@ window.addEventListener('load', function () {
         	Q.compileSheets('skree.png', 'skree.json');
         	Q.compileSheets('space_pirate.png', 'space_pirate.json');
         	Q.compileSheets('space_pirate_projectile.png', 'space_pirate_projectile.json');
+        	Q.compileSheets('kraid.png', 'kraid.json');
 			Q.stageScene('level1');
 		}
 	);
