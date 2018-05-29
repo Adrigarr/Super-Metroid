@@ -592,6 +592,7 @@ window.addEventListener('load', function () {
                 /**
                  * Atributos adicionales.
                  */
+                lock: true,
                 die: false,
                 collision: false
             });
@@ -646,16 +647,18 @@ window.addEventListener('load', function () {
                 }
 
                 // Si Samus se acerca por la izquierda
-                if(distance < 150 && distance > 0) {
+                if(distance < 150 && distance > 0 && this.p.lock) {
+                	this.p.lock = false;
                 	this.play('attack');
                 	this.p.vy = 275;
                 	this.p.vx = -175;
                 }
                 // Si Samus se acerca por la derecha
-                else if(distance > -150 && distance < 0) {
+                else if(distance > -150 && distance < 0 && this.p.lock) {
+                	this.p.lock = false;
                 	this.play('attack');
-                	this.p.gravityY = 275;
-                	this.p.gravityX = 175;
+                	this.p.vy = 275;
+                	this.p.vx = 175;
                 }
                 else {
                 	this.play('live');
