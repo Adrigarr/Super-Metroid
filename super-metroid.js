@@ -95,8 +95,8 @@ window.addEventListener('load', function () {
 			this._super(p, {
 				sprite: "samus_anim",
 				sheet: "samus_fire",
-				x: 3320, //3075, 1540, 3220
-				y: 900, //300, 480, 900
+				x: 3728, //3075, 1540, 3220
+				y: 488, //300, 480, 900
 				onAir: false,
 				last_vx: 0,
 				last_y: 0,
@@ -139,14 +139,12 @@ window.addEventListener('load', function () {
 		changeWeapon: function () {
 
 			if(this.p.missile === true) {
-				console.log("Misil true");
 				if (this.p.selected_weapon === "missile") {
 					this.p.selected_weapon = "fire";
 				} else {
 					this.p.selected_weapon = "missile";
 				}
 			}else{
-				console.log("Misil false");
 			}
 		},
 
@@ -155,7 +153,6 @@ window.addEventListener('load', function () {
 			var p = this.p;
 			var posx, posy, vX, vY, sprite, weapon = this.p.selected_weapon;
 
-			console.log(weapon);
 			// Ver tambien si estan seleccionados los misiles o disparos en el futuro
 			switch (p.last_animation) {
 				case "fire_down_left":
@@ -476,7 +473,6 @@ window.addEventListener('load', function () {
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
 					collision.obj.p.missile = true;
-					console.log(collision.obj.p.missile);
 					this.destroy();
 				}
 			});
