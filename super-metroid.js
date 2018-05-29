@@ -104,6 +104,7 @@ window.addEventListener('load', function () {
 				ball: false, // Controla si tiene el power up de la bola
 				missile: false, // Controla si tiene el power up de misiles
 				selected_weapon: "fire", // Controla el arma seleccionada por el jugador
+				scale: 0.85,
 			});
 
 			this.add('2d, platformerControls, animation');
@@ -252,6 +253,7 @@ window.addEventListener('load', function () {
 				this.p.cy = 24;
 				this.p.h = 48;
 				this.p.w = 27;
+				this.p.scale = 0.85;
 			}
 
 			// Mira arriba
@@ -311,6 +313,7 @@ window.addEventListener('load', function () {
 				this.p.sheet = "samus_ball";
 				this.p.last_animation = "ball";
 				this.p.last_vx = this.p.vx;
+				this.p.scale = 1;
 			}
 
 			// Normal
@@ -669,7 +672,7 @@ window.addEventListener('load', function () {
 
                 /**
                  * Indicamos el tiempo al que baja el Skree.
-                
+
                 if (this.p.time_jump >= 1.5) {
                     this.p.vy = 70;
                 } */
@@ -836,12 +839,9 @@ window.addEventListener('load', function () {
 
         fire_left: function() { // WIP
             this.p.direction = 'fireL';
-
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_left';
-
             var p = this.p;
-
             //var projectile = this.stage.insert(new Q.SpacePirateProjectile({x: p.x-20, y: p.y-20, vx: -100}));
         },
 
