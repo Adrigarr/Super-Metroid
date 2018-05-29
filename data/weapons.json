@@ -1,33 +1,33 @@
 {
-    "misile_left": {
+    "missile_left": {
         "sx": 48,
         "sy": 0,
         "tilew": 16,
         "tileh": 16,
         "frames": 1
     },
-    "misile_right": {
+    "missile_right": {
         "sx": 64,
         "sy": 0,
         "tilew": 16,
         "tileh": 16,
         "frames": 1
     },
-    "misile_up": {
+    "missile_up": {
         "sx": 16,
         "sy": 0,
         "tilew": 16,
         "tileh": 16,
         "frames": 1
     },
-    "misile_up_left": {
+    "missile_up_left": {
         "sx": 0,
         "sy": 0,
         "tilew": 16,
         "tileh": 16,
         "frames": 1
     },
-    "misile_up_right": {
+    "missile_up_right": {
         "sx": 32,
         "sy": 0,
         "tilew": 16,

@@ -102,7 +102,7 @@ window.addEventListener('load', function () {
 				last_y: 0,
 				last_animation: "stand_right",
 				ball: false, // Controla si tiene el power up de la bola
-				missile: true, // Controla si tiene el power up de misiles
+				missile: false, // Controla si tiene el power up de misiles
 				selected_weapon: "fire", // Controla el arma seleccionada por el jugador
 			});
 
@@ -138,22 +138,24 @@ window.addEventListener('load', function () {
 		// Acción producida al cambiar de arma (Enter)
 		changeWeapon: function () {
 
-			if (this.p.missile) {
+			if(this.p.missile === true) {
+				console.log("Misil true");
 				if (this.p.selected_weapon === "missile") {
 					this.p.selected_weapon = "fire";
 				} else {
 					this.p.selected_weapon = "missile";
 				}
+			}else{
+				console.log("Misil false");
 			}
 		},
 
 		// Acción producida al disparar (Z)
 		fireWeapon: function () {
 			var p = this.p;
-			var posx, posy, vX, vY, sprite, weapon = "fire";
+			var posx, posy, vX, vY, sprite, weapon = this.p.selected_weapon;
 
-			if (this.p.selected_weapon === "missile") weapon = "missile";
-
+			console.log(weapon);
 			// Ver tambien si estan seleccionados los misiles o disparos en el futuro
 			switch (p.last_animation) {
 				case "fire_down_left":
@@ -474,6 +476,7 @@ window.addEventListener('load', function () {
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
 					collision.obj.p.missile = true;
+					console.log(collision.obj.p.missile);
 					this.destroy();
 				}
 			});
@@ -540,12 +543,12 @@ window.addEventListener('load', function () {
             if (collision.obj.isA('Weapon')) {
                 if(!this.p.collision){
                     this.trigger('die');
-                }  
+                }
             }
         },
         /**
          * En caso de que Mario choque contra él, Mario muere.
-         
+
         collision: function(collision) {
             if (collision.obj.isA('Mario')) {
                 if(!this.p.collision){
@@ -693,7 +696,7 @@ window.addEventListener('load', function () {
                 sheet: 'space_pirate_walk_right',
                 /**
                  * Posición inicial del Space_Pirate.
-                 
+
                 x: 1660,
                 y: 500,*/
                 /**
@@ -744,12 +747,12 @@ window.addEventListener('load', function () {
                 if(!this.p.collision){
                     this.trigger('die');
                 }
-                
+
             }
         },
         /**
          * En caso de que Mario choque contra él, Mario muere.
-         
+
         collision: function(collision) {
             if (collision.obj.isA('Mario')) {
                 if(!this.p.collision){
@@ -776,7 +779,7 @@ window.addEventListener('load', function () {
                 Q('SpacePirate').items[array].p.sheet = 'space_pirate_walk_left';
             }, 2000);
 
-            
+
         },
 
         /**
@@ -819,7 +822,7 @@ window.addEventListener('load', function () {
          * Ejecuta un paso de Space_Pirate.
          */
         step: function(dt) {
-            
+
             if (this.p.die) {
                 this.play('die');
             } else {
@@ -862,7 +865,7 @@ window.addEventListener('load', function () {
                 else if (this.p.x <= this.p.stop_left && this.p.vx < 0) {
                     this.trigger('turn_right')
                 }
-    
+
             }
         }
     });
