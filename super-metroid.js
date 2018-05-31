@@ -98,6 +98,7 @@ window.addEventListener('load', function () {
 				x: 3715, //3075, 1540, 3220 x: 1700, y: 1672
 				y: 340, //300, 480, 900
 				onAir: false,
+				state: 2,   //3: saltando, 2: en pie, 1: agachado, 0: bola
 				last_vx: 0,
 				last_y: 0,
 				last_animation: "stand_right",
@@ -119,20 +120,61 @@ window.addEventListener('load', function () {
 
 			this.on('bump.bottom', this, 'floor');
 			Q.input.on('up', this, 'jump');
-
+			Q.input.on('down',this, 'duck');
 			Q.input.on("fire", this, "fireWeapon");
 			Q.input.on("confirm", this, "changeWeapon");
 		},
 		step: function (dt) {
+			this.checkVelocity();
 			this.checkMovement();
 		},
+
+		duck: function(){
+
+			// Si no se está saltando o en el estado bola se cambia el estado de Samus
+			if(this.p.state > 1 && this.p.state < 3 || (this.p.state == 1 && this.p.ball == true)){
+				this.p.state -= 1;
+			}
+
+			// Cuando Samus está en modo bola su tamaño cambia
+			if(this.p.state == 0){
+				this.p.h = 16;
+				this.p.w = 16;
+				this.p.cy = -8;
+				this.p.cx = 0;
+				this.p.scale = 1;
+			}
+		},
+
 		jump: function () {
-			if (!this.onAir && !Q.inputs['P'] && !Q.inputs['down']) {
+
+			// Si se pulsa el boton de salto y no está en estado salto, se aumenta en uno el estado
+			if(this.p.state != 3){
+				this.p.state += 1;
+			}
+
+			// Si se pulsa el botón de salto, no se está en el aire  y está en el estado salto se salta
+			if (!this.onAir && this.p.state == 3) {
 				this.p.y -= 50;
 				this.onAir = true;
 			}
+
+			// Cuando Samus deja de usar de ser una bola recupera su tamaño original
+			if(this.p.state != 0){
+				this.p.cx = 13.5;
+				this.p.cy = 24;
+				this.p.h = 48;
+				this.p.w = 27;
+				this.p.scale = 0.85;
+			}
 		},
+
 		floor: function () {
+
+			// Si estando en el estado de salto se toca el suelo, cambia a estado en pie
+			if(this.p.state == 3)
+				this.p.state -= 1;
+
 			this.onAir = false;
 		},
 
@@ -145,16 +187,15 @@ window.addEventListener('load', function () {
 				} else {
 					this.p.selected_weapon = "missile";
 				}
-			}else{
 			}
+
 		},
 
 		// Acción producida al disparar (Z)
 		fireWeapon: function () {
 			var p = this.p;
-			var posx, posy, vX, vY, sprite, weapon = this.p.selected_weapon;
+			var posx, posy, vX, vY, sprite, weapon = this.p.selected_weapon, damage = 1;
 
-			// Ver tambien si estan seleccionados los misiles o disparos en el futuro
 			switch (p.last_animation) {
 				case "fire_down_left":
 					sprite = weapon + "_up_left";
@@ -235,59 +276,70 @@ window.addEventListener('load', function () {
 					break;
 			}
 
-			this.stage.insert(new Q.Weapon({
+			if(weapon == "missile")
+				damage = 3;
+
+
+			this.stage.insert(new Q.Munition({
 				sprite: sprite,
 				sheet: sprite,
 				x: posx,
 				y: posy,
 				vy: vY,
-				vx: vX
+				vx: vX,
+				damage: damage
 			}));
 		},
 
-		// Controla todo lo relacionado con el movimiento
+		// Controla la velocidad de Samus según su estado
+		checkVelocity: function(){
+
+			// Si Samus está agachada no se le permite moverse
+			if(this.p.state == 1){
+				this.p.vx = 0;
+			}
+
+			/* Si Samus no está en estado de salto y no da a saltar,
+			se fija velocidad hacia abajo por si se cae hacia abajo */
+			else if(this.p.state < 3 && !Q.inputs['up'])
+				this.p.vy = 300;
+
+			/* Si Samus no está en estado de salto y se da a saltar,
+			se fija velocidad de 0 para no saltar en el cambio de animación */
+			if(this.p.state < 3 && Q.inputs['up'])
+				this.p.vy = 0;
+
+		},
+
+		// Controla el movimiento de Samus según su estado
 		checkMovement: function () {
 
-			if(!Q.inputs['P'] && this.p.h != 48){
-				this.p.cx = 13.5;
-				this.p.cy = 24;
-				this.p.h = 48;
-				this.p.w = 27;
-				this.p.scale = 0.85;
-			}
+			// Apuntar
+			if(Q.inputs['S']){
+				// Si está de pie
+				if(this.p.state == 2){
+					// Movimiento
+					if (this.p.vx != 0) {
+						this.p.sheet = "samus_run_up";
+						// Corre apuntando hacia la derecha
+						if (this.p.vx > 0) this.p.last_animation = "run_right_up";
+						// Corre apuntando hacia la izquierda
+						else this.p.last_animation = "run_left_up";
 
-			// Mira arriba
-			if (Q.inputs['S'] && !Q.inputs['down']) {
-				// Movimiento
-				if (this.p.vx != 0) {
-					this.p.sheet = "samus_run_up";
-					// Corre apuntando hacia la derecha
-					if (this.p.vx > 0) this.p.last_animation = "run_right_up";
-					// Corre apuntando hacia la izquierda
-					else this.p.last_animation = "run_left_up";
-
-					this.p.last_vx = this.p.vx;
+						this.p.last_vx = this.p.vx;
+					}
+					// Estatico
+					else {
+						this.p.sheet = "samus_fire";
+						// Apunta hacia arriba a la derecha
+						if (this.p.last_vx >= 0) this.p.last_animation = "stand_right";
+						// Apunta hacia arriba a la izquierda
+						else this.p.last_animation = "stand_left";
+					}
 				}
-				// Estatico
-				else {
-					this.p.sheet = "samus_fire";
-					// Apunta hacia arriba a la derecha
-					if (this.p.last_vx >= 0) this.p.last_animation = "stand_right";
-					// Apunta hacia arriba a la izquierda
-					else this.p.last_animation = "stand_left";
-				}
-			}
 
-			// Mira abajo
-			else if (Q.inputs['down'] && !Q.inputs['P']) {
-				this.p.vx = 0;
-				this.p.vy = 0;
-				if (!Q.inputs['S']) {
-					this.p.sheet = "samus_down";
-					this.p.last_animation = "stand_down_right";
-					// Mira hacia la izquierda
-					if (Q.inputs['left']) this.p.last_animation = "stand_down_left";
-				} else {
+				// Si está agachado
+				else if(this.p.state == 1){
 					this.p.sheet = "samus_fire4";
 					// Apunta a la derecha
 					if (Q.inputs['right']) this.p.last_animation = "fire_down_right";
@@ -298,42 +350,50 @@ window.addEventListener('load', function () {
 				}
 			}
 
-			// Salta
-			else if (Q.inputs['up'] && this.p.last_y != this.p.y && !Q.inputs['P']) {
-				this.p.last_y = this.p.y;
-				if (this.p.vx >= 0) this.p.sheet = "samus_jump_right";
-				else this.p.sheet = "samus_jump_left";
-				this.p.last_animation = "jump";
-			} else if (Q.inputs['P'] && this.p.ball) {
-				this.p.vy = 50;
-				this.p.h = 16;
-				this.p.w = 16;
-				this.p.cy = -8;
-				this.p.cx = -8;
-				this.p.sheet = "samus_ball";
-				this.p.last_animation = "ball";
-				this.p.last_vx = this.p.vx;
-				this.p.scale = 1;
-			}
+			else{
+				// Esta saltando
+				if(this.p.state == 3 && this.p.last_y != this.p.y){
+					this.p.last_y = this.p.y;
+					if (this.p.vx >= 0) this.p.sheet = "samus_jump_right";
+					else this.p.sheet = "samus_jump_left";
+					this.p.last_animation = "jump";
+				}
 
-			// Normal
-			else {
-				// Movimiento
-				if (this.p.vx != 0) {
-					this.p.sheet = "samus_run";
-					// Corre hacia la derecha
-					if (this.p.vx > 0) this.p.last_animation = "run_right";
-					// Corre hacia la izquierda
-					else this.p.last_animation = "run_left";
+				// Esta de pie
+				if(this.p.state == 2){
+					// Movimiento
+					if (this.p.vx != 0) {
+						this.p.sheet = "samus_run";
+						// Corre hacia la derecha
+						if (this.p.vx > 0) this.p.last_animation = "run_right";
+						// Corre hacia la izquierda
+						else this.p.last_animation = "run_left";
+						this.p.last_vx = this.p.vx;
+					}
+					// Estatico
+					else {
+						this.p.sheet = "samus_fire";
+						if (this.p.last_vx < 0) this.p.last_animation = "stand_left";
+						else this.p.last_animation = "stand_right";
+					}
+				}
+
+				// Esta agachado
+				else if(this.p.state == 1){
+					this.p.sheet = "samus_down";
+					this.p.last_animation = "stand_down_right";
+					// Mira hacia la izquierda
+					if (Q.inputs['left']) this.p.last_animation = "stand_down_left";
+				}
+
+				// Esta rodando
+				if(this.p.state == 0 && this.p.ball){
+					this.p.sheet = "samus_ball";
+					this.p.last_animation = "ball";
 					this.p.last_vx = this.p.vx;
 				}
-				// Estatico
-				else {
-					this.p.sheet = "samus_fire";
-					if (this.p.last_vx < 0) this.p.last_animation = "stand_left";
-					else this.p.last_animation = "stand_right";
-				}
 			}
+
 			// Ejecuta la animación
 			this.play(this.p.last_animation);
 		}
@@ -369,7 +429,7 @@ window.addEventListener('load', function () {
 	// }
 	// });
 
-	Q.Sprite.extend("Weapon", {
+	Q.Sprite.extend("Munition", {
 		init: function (p) {
 			this._super(p, {
 				x: 0,
@@ -377,10 +437,12 @@ window.addEventListener('load', function () {
 				velx: 0,
 				vely: 0,
 				gravity: false,
+				damage: 1,
 			});
 			this.add('2d');
 			this.on("hit", function (collision) {
-				this.destroy();
+				if(!collision.obj.isA('Munition'))
+					this.destroy();
 			});
 		}
 	});
@@ -433,10 +495,18 @@ window.addEventListener('load', function () {
 				if (collision.obj.isA('Samus')) {
 					this.play('open');
 					collision.obj.p.lock = true;
+
 					setTimeout(function () {
 						if (collision.obj.p.lock) {
 							collision.obj.p.x += 290;
 							collision.obj.p.lock = false;
+
+							// Si se trata de la puerta de acceso a la sala de guardado, se guarda en state los datos de interes
+							if(collision.obj.p.x >= 3246 && collision.obj.p.x <= 3260
+								&& collision.obj.p.y >= 1530 && collision.obj.p.y <= 1532){
+									Q.state.set({save_game: true});
+									Q.state.set({hasMissile: collision.obj.missile});
+							}
 						}
 					}, 500);
 				}
@@ -539,7 +609,7 @@ window.addEventListener('load', function () {
          * En caso de que Mario salte encima de él, el Zoomer muere.
         */
         hit: function(collision) {
-            if (collision.obj.isA('Weapon')) {
+            if (collision.obj.isA('Munition')) {
                 if(!this.p.collision){
                     this.trigger('die');
                 }
@@ -622,7 +692,7 @@ window.addEventListener('load', function () {
         },
 
         hit: function(collision) {
-            if (collision.obj.isA('Weapon')) {
+            if (collision.obj.isA('Munition')) {
                 if(!this.p.collision){
                     this.trigger('die');
                 }
@@ -652,22 +722,19 @@ window.addEventListener('load', function () {
                 // Si Samus se acerca por la izquierda
                 if(distance < 150 && distance > 0 && this.p.lock) {
                 	this.p.lock = false;
-                	this.p.vy = 220;
+                	this.play('attack');
+                	this.p.vy = 275;
                 	this.p.vx = -175;
                 }
                 // Si Samus se acerca por la derecha
                 else if(distance > -150 && distance < 0 && this.p.lock) {
                 	this.p.lock = false;
-                	this.p.vy = 220;
+                	this.play('attack');
+                	this.p.vy = 275;
                 	this.p.vx = 175;
                 }
                 else {
-                	if(this.p.vy > 0){
-                		this.play('attack');
-                	}
-                	else{
-                		this.play('live');
-                	}
+                	this.play('live');
                 }
 
                 /**
@@ -689,18 +756,22 @@ window.addEventListener('load', function () {
    Q.Sprite.extend('SpacePirateProjectile', {
         init: function (p) {
             this._super(p, {
-
                 sprite: 'space_pirate_projectile animation',
                 sheet: 'space_pirate_projectile',
+								x: 0,
+								y: 0,
+								vx: 0,
                 vy: 0,
+								scale: 0.60,
                 gravity: false,
-
             });
 
             this.add('2d, animation');
 
             this.on("hit", function (collision) {
-                this.destroy();
+							if (!collision.obj.isA('SpacePirateProjectile') && !collision.obj.isA('SpacePirate')) {
+								this.destroy();
+							}
             });
         },
 
@@ -744,7 +815,8 @@ window.addEventListener('load', function () {
                 direction: 'right',
                 lock: true,
                 die: false,
-                collision: false
+                collision: false,
+								deltaTime: 0,
             });
             /**
              * Los módulos Quintus necesarios.
@@ -778,7 +850,7 @@ window.addEventListener('load', function () {
          * En caso de que reciba un disparo, el Space_Pirate muere
          */
         hit: function(collision) {
-            if (collision.obj.isA('Weapon')) {
+            if (collision.obj.isA('Munition')) {
                 if(!this.p.collision){
                     this.trigger('die');
                 }
@@ -841,22 +913,33 @@ window.addEventListener('load', function () {
             this.p.direction = 'fireL';
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_left';
-            var p = this.p;
-            //var projectile = this.stage.insert(new Q.SpacePirateProjectile({x: p.x-20, y: p.y-20, vx: -100}));
+						console.log(this.p.deltaTime);
+						if(this.p.deltaTime >= 120){
+							var projectile = new Q.SpacePirateProjectile({x: this.p.x-35, y: this.p.y, vx: -100});
+							this.stage.insert(projectile);
+							this.p.deltaTime = 0;
+						}else{
+							this.p.deltaTime = this.p.deltaTime + 1;
+						}
         },
 
         fire_right: function() { // WIP
             this.p.direction = 'fireR';
-
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_right';
+						if(this.p.deltaTime >= 120){
+							var projectile = new Q.SpacePirateProjectile({x: this.p.x+35, y: this.p.y, vx: +100});
+							this.stage.insert(projectile);
+							this.p.deltaTime = 0;
+						}else{
+							this.p.deltaTime = this.p.deltaTime + 1;
+						}
         },
 
         /**
          * Ejecuta un paso de Space_Pirate.
          */
         step: function(dt) {
-
             if (this.p.die) {
                 this.play('die');
             } else {
@@ -877,14 +960,14 @@ window.addEventListener('load', function () {
                 }
 
                 // Si Samus se acerca por la izquierda
-                if(distance < 70 && distance > 0) {
-                	this.p.patroling = false;
-                    this.trigger('fire_left');
+                if(distance < 100 && distance > 0) {
+									this.p.patroling = false;
+									this.trigger('fire_left');
                 }
                 // Si Samus se acerca por la derecha
-                else if(distance > -70 && distance < 0) {
+                else if(distance > -100 && distance < 0) {
                 	this.p.patroling = false;
-                    this.trigger('fire_right');
+									this.trigger('fire_right');
                 }
                 else if(distance > 280) {
                 	this.p.patroling = true;
@@ -907,7 +990,6 @@ window.addEventListener('load', function () {
                 	this.p.lock = false;
                     this.trigger('turn_right');
                 }
-
             }
         }
     });
@@ -957,62 +1039,16 @@ Q.animations('kraid animation', { // WIPS
 
 	Q.scene('level1', function (stage) {
 		Q.stageTMX('zebes.tmx', stage);
-		var samus = stage.insert(new Q.Samus());
-		stage.insert(
-			new Q.DoorR({
-				x: 3220,
-				y: 448
-			})
-		);
-		stage.insert(
-			new Q.DoorL({
-				x: 2972,
-				y: 448
-			})
-		);
-		stage.insert(
-			new Q.DoorR({
-				x: 3220,
-				y: 896
-			})
-		);
-		stage.insert(
-			new Q.DoorL({
-				x: 2972,
-				y: 896
-			})
-		);
-		stage.insert(
-			new Q.DoorR({
-				x: 3220,
-				y: 1520
-			})
-		);
-		stage.insert(
-			new Q.DoorL({
-				x: 2972,
-				y: 1520
-			})
-		);
-		stage.insert(
-			new Q.DoorR({
-				x: 1460,
-				y: 1616
-			})
-		);
-		stage.insert(
-			new Q.DoorL({
-				x: 1212,
-				y: 1616
-			})
-		);
+		loadDoors(stage);
+		Q.state.set({save_game: false});
+
 		stage.insert(new Q.Ball());
 		stage.insert(new Q.Missile());
-
+		var samus = stage.insert(new Q.Samus());
 		var zoomer = stage.insert(new Q.Zoomer({x: 2323, y: 1160}));
-        var skree = stage.insert(new Q.Skree({x: 2144, y: 334}));
-        var space_pirate = stage.insert(new Q.SpacePirate({ x: 1700, y: 1672, array: 0, stop_right: 1760, stop_left: 1675 }));
-        var kraid = stage.insert(new Q.Kraid({x: 438, y: 1648}));
+    var skree = stage.insert(new Q.Skree({x: 2144, y: 334}));
+    var space_pirate = stage.insert(new Q.SpacePirate({ x: 1700, y: 1672, array: 0, stop_right: 1760, stop_left: 1675 }));
+    var kraid = stage.insert(new Q.Kraid({x: 438, y: 1648}));
 
 		stage.add('viewport').follow(samus);
 		stage.viewport.scale = 1;
@@ -1036,4 +1072,76 @@ Q.animations('kraid animation', { // WIPS
 			Q.stageScene('level1');
 		}
 	);
+
+ // Esta escena carga la partida desde la sala de guardado cuando Samus muere
+	Q.scene('load_game', function (stage) {
+		Q.stageTMX('zebes.tmx', stage);
+		loadDoors(stage);
+		var samus = stage.insert(new Q.Samus({misille: Q.state.get("hasMissile"), ball: true, x: 3402.525, y:1547.6}));
+		var space_pirate = stage.insert(new Q.SpacePirate({ x: 1700, y: 1672, array: 0, stop_right: 1760, stop_left: 1675 }));
+		var kraid = stage.insert(new Q.Kraid({x: 438, y: 1648}));
+		stage.add('viewport').follow(samus);
+		stage.viewport.scale = 1;
+		stage.viewport.offsetY = 80;
+	});
+
+// Llamar a este método cuando muera Samus y se quiere cargar partida en vez de reiniciar
+function loadGame(){
+	if(Q.state.get("save_game")){
+		Q.clearStages();
+		Q.stageScene("load_game");
+	}
+}
+
+function loadDoors(stage){
+	stage.insert(
+		new Q.DoorR({
+			x: 3220,
+			y: 448
+		})
+	);
+	stage.insert(
+		new Q.DoorL({
+			x: 2972,
+			y: 448
+		})
+	);
+	stage.insert(
+		new Q.DoorR({
+			x: 3220,
+			y: 896
+		})
+	);
+	stage.insert(
+		new Q.DoorL({
+			x: 2972,
+			y: 896
+		})
+	);
+	stage.insert(
+		new Q.DoorR({
+			x: 3220,
+			y: 1520
+		})
+	);
+	stage.insert(
+		new Q.DoorL({
+			x: 2972,
+			y: 1520
+		})
+	);
+	stage.insert(
+		new Q.DoorR({
+			x: 1460,
+			y: 1616
+		})
+	);
+	stage.insert(
+		new Q.DoorL({
+			x: 1212,
+			y: 1616
+		})
+	);
+};
+
 });
