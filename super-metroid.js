@@ -95,8 +95,8 @@ window.addEventListener('load', function () {
 			this._super(p, {
 				sprite: "samus_anim",
 				sheet: "samus_fire",
-				x: 3715, //3075, 1540, 3220 x: 1700, y: 1672
-				y: 340, //300, 480, 900
+				x: 700, //3715, //3075, 1540, 3220 x: 1700, y: 1672
+				y: 1787,//340, //300, 480, 900
 				onAir: false,
 				state: 2,   //3: saltando, 2: en pie, 1: agachado, 0: bola
 				last_vx: 0,
@@ -913,27 +913,30 @@ window.addEventListener('load', function () {
             this.p.direction = 'fireL';
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_left';
-						console.log(this.p.deltaTime);
-						if(this.p.deltaTime >= 120){
-							var projectile = new Q.SpacePirateProjectile({x: this.p.x-35, y: this.p.y, vx: -100});
-							this.stage.insert(projectile);
-							this.p.deltaTime = 0;
-						}else{
-							this.p.deltaTime = this.p.deltaTime + 1;
-						}
+
+			console.log(this.p.deltaTime);
+			if(this.p.deltaTime >= 120){
+				var projectile = new Q.SpacePirateProjectile({x: this.p.x-30, y: this.p.y, vx: -100});
+				this.stage.insert(projectile);
+				this.p.deltaTime = 0;
+			}else{
+				this.p.deltaTime = this.p.deltaTime + 1;
+			}
         },
 
         fire_right: function() { // WIP
             this.p.direction = 'fireR';
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_right';
-						if(this.p.deltaTime >= 120){
-							var projectile = new Q.SpacePirateProjectile({x: this.p.x+35, y: this.p.y, vx: +100});
-							this.stage.insert(projectile);
-							this.p.deltaTime = 0;
-						}else{
-							this.p.deltaTime = this.p.deltaTime + 1;
-						}
+
+			console.log(this.p.deltaTime);
+			if(this.p.deltaTime >= 120){
+				var projectile = new Q.SpacePirateProjectile({x: this.p.x+30, y: this.p.y, vx: +100});
+				this.stage.insert(projectile);
+				this.p.deltaTime = 0;
+			}else{
+				this.p.deltaTime = this.p.deltaTime + 1;
+			}
         },
 
         /**
@@ -995,7 +998,7 @@ window.addEventListener('load', function () {
     });
 
 Q.animations('kraid animation', { // WIPS
-    	'live': { frames: [0], loop: false }
+    	'live': { frames: [2, 4, 2, 4, 2, 4, 6, 8], rate: 1 / 2 }
     });
     /**
      * Clase que representa al enemigo Skree.
@@ -1008,6 +1011,8 @@ Q.animations('kraid animation', { // WIPS
                  * Sprite del Skree.
                  */
                 sheet: 'kraid',
+
+                bullet_cd: 0,
             });
             /**
              * Los módulos Quintus necesarios.
@@ -1017,6 +1022,46 @@ Q.animations('kraid animation', { // WIPS
 
         step: function(dt) {
             this.play('live');
+
+            if(this.p.bullet_cd == 60) {
+            	this.p.bullet_cd = 0;
+            	this.trigger('bullet'); // WIP
+            }
+            else {
+            	this.p.bullet_cd++;
+            }
+        }
+    });
+
+    Q.animations('kraid_bullets animation', {
+        'fire': { frames: [0], loop: false }
+    });
+
+
+   Q.Sprite.extend('KraidBullet', {
+        init: function (p) {
+            this._super(p, {
+                sprite: 'kraid_bullets animation',
+                sheet: 'kraid_bullets',
+								x: 0,
+								y: 0,
+								vx: 0,
+                vy: 0,
+								scale: 0.60,
+                gravity: false,
+            });
+
+            this.add('2d, animation');
+
+            this.on("hit", function (collision) {
+							if (!collision.obj.isA('KraidBullet')) {
+								this.destroy();
+							}
+            });
+        },
+
+        step: function(dt) {
+            this.play('fire');
         }
     });
 
@@ -1056,7 +1101,7 @@ Q.animations('kraid animation', { // WIPS
 	});
 
 	Q.loadTMX(
-		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx',
+		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx',
 		function () {
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
@@ -1069,6 +1114,8 @@ Q.animations('kraid animation', { // WIPS
         	Q.compileSheets('space_pirate.png', 'space_pirate.json');
         	Q.compileSheets('space_pirate_projectile.png', 'space_pirate_projectile.json');
         	Q.compileSheets('kraid.png', 'kraid.json');
+        	Q.compileSheets('kraid_bullets.png', 'kraid_bullets.json');
+        	Q.compileSheets('kraid_claws.png', 'kraid_claws.json');
 			Q.stageScene('level1');
 		}
 	);
