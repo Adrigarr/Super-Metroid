@@ -22,7 +22,7 @@
    </objectgroup>
   </tile>
  </tileset>
- <layer name="BOT" width="260" height="120" visible="0">
+ <layer name="BOT" width="260" height="120">
   <properties>
    <property name="type" type="int" value="0"/>
   </properties>
@@ -57272,8 +57272,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="97"/>
+   <tile gid="99"/>
    <tile/>
    <tile/>
    <tile/>
@@ -58318,8 +58318,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="97"/>
+   <tile gid="99"/>
    <tile/>
    <tile/>
    <tile/>
@@ -59352,8 +59352,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="97"/>
+   <tile gid="99"/>
    <tile/>
    <tile/>
    <tile/>
@@ -88302,8 +88302,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="41"/>
+   <tile gid="44"/>
    <tile/>
    <tile/>
    <tile/>
@@ -89348,8 +89348,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="41"/>
+   <tile gid="44"/>
    <tile/>
    <tile/>
    <tile/>
@@ -90382,8 +90382,8 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
-   <tile/>
+   <tile gid="41"/>
+   <tile gid="44"/>
    <tile/>
    <tile/>
    <tile/>
