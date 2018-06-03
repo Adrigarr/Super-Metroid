@@ -914,8 +914,7 @@ window.addEventListener('load', function () {
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_left';
 
-			console.log(this.p.deltaTime);
-			if(this.p.deltaTime >= 120){
+			if(this.p.deltaTime >= 60){
 				var projectile = new Q.SpacePirateProjectile({x: this.p.x-30, y: this.p.y, vx: -100});
 				this.stage.insert(projectile);
 				this.p.deltaTime = 0;
@@ -929,8 +928,7 @@ window.addEventListener('load', function () {
             this.p.vx = 0;
             this.p.sheet = 'space_pirate_fire_right';
 
-			console.log(this.p.deltaTime);
-			if(this.p.deltaTime >= 120){
+			if(this.p.deltaTime >= 60){
 				var projectile = new Q.SpacePirateProjectile({x: this.p.x+30, y: this.p.y, vx: +100});
 				this.stage.insert(projectile);
 				this.p.deltaTime = 0;
@@ -998,7 +996,7 @@ window.addEventListener('load', function () {
     });
 
 Q.animations('kraid animation', { // WIPS
-    	'live': { frames: [2, 4, 2, 4, 2, 4, 6, 8], rate: 1 / 2 }
+    	'live': { frames: [3, 5, 3, 5, 3, 5, 7, 9], rate: 1 / 2 }
     });
     /**
      * Clase que representa al enemigo Skree.
@@ -1020,12 +1018,19 @@ Q.animations('kraid animation', { // WIPS
             this.add('2d, animation');
         },
 
+        bullet: function(){
+        	console.log('hey');
+        	var bullet = new Q.KraidBullet({x: this.p.x+100, y: this.p.y, vx: +100});
+			this.stage.insert(bullet);
+        },
+
         step: function(dt) {
             this.play('live');
 
             if(this.p.bullet_cd == 60) {
+				this.trigger('bullet'); // WIP
             	this.p.bullet_cd = 0;
-            	this.trigger('bullet'); // WIP
+            	
             }
             else {
             	this.p.bullet_cd++;
