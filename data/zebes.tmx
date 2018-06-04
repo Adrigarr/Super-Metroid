@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="260" height="120" tilewidth="16" tileheight="16" infinite="0" nextobjectid="95">
+<map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="260" height="120" tilewidth="16" tileheight="16" infinite="0" nextobjectid="97">
  <tileset firstgid="1" name="zebes" tilewidth="16" tileheight="16" tilecount="264" columns="8">
   <image source="../images/zebes.png" trans="606068" width="128" height="528"/>
   <tile id="8">
@@ -57049,7 +57049,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="117"/>
    <tile gid="69"/>
    <tile gid="70"/>
    <tile gid="84"/>
@@ -57309,7 +57309,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="125"/>
    <tile gid="77"/>
    <tile gid="78"/>
    <tile gid="84"/>
@@ -57569,7 +57569,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="133"/>
    <tile gid="85"/>
    <tile gid="86"/>
    <tile gid="84"/>
@@ -57829,7 +57829,7 @@
    <tile/>
    <tile/>
    <tile/>
-   <tile/>
+   <tile gid="141"/>
    <tile gid="93"/>
    <tile gid="94"/>
    <tile gid="84"/>

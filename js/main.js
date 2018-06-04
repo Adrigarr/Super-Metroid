@@ -31,22 +31,22 @@ window.addEventListener('load', function () {
 		}
 	});
 
-loadSamus(Q);
-loadMunition(Q);
-loadBall(Q);
-loadMissile(Q);
+	loadSamus(Q);
+	loadMunition(Q);
+	loadBall(Q);
+	loadMissile(Q);
 
-loadDoorR(Q);
-loadDoorL(Q);
+	loadDoorR(Q);
+	loadDoorL(Q);
 
-loadZoomer(Q);
-loadSkree(Q);
-loadSpacePirateProjectile(Q);
-loadSpacePirate(Q);
+	loadZoomer(Q);
+	loadSkree(Q);
+	loadSpacePirateProjectile(Q);
+	loadSpacePirate(Q);
 
-loadKraid(Q);
+	loadKraid(Q);
 
-loadDiagonal(Q);
+	loadDiagonal(Q);
 
 
 
@@ -94,7 +94,7 @@ loadDiagonal(Q);
 		stage.viewport.scale = 1;
 		stage.viewport.offsetY = 80;
 	});
-	
+
 
 	Q.loadTMX(
 		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx',
@@ -194,12 +194,6 @@ loadDiagonal(Q);
 		stage.insert(
 			new Q.DoorR({
 				x: 1460,
-				y: 1616
-			})
-		);
-		stage.insert(
-			new Q.DoorL({
-				x: 1212,
 				y: 1616
 			})
 		);
