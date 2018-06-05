@@ -150,9 +150,9 @@ function loadSpacePirate(Q) {
 			this.p.vx = 0;
 			this.p.sheet = 'space_pirate_fire_left';
 
-			if (this.p.deltaTime >= 120) {
+			if (this.p.deltaTime >= 60) {
 				var projectile = new Q.SpacePirateProjectile({
-					x: this.p.x - 35,
+					x: this.p.x - 30,
 					y: this.p.y,
 					vx: -100
 				});
@@ -168,9 +168,10 @@ function loadSpacePirate(Q) {
 			this.p.direction = 'fireR';
 			this.p.vx = 0;
 			this.p.sheet = 'space_pirate_fire_right';
-			if (this.p.deltaTime >= 120) {
+			
+			if (this.p.deltaTime >= 60) {
 				var projectile = new Q.SpacePirateProjectile({
-					x: this.p.x + 35,
+					x: this.p.x + 30,
 					y: this.p.y,
 					vx: +100
 				});

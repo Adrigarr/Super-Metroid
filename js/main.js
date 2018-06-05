@@ -45,6 +45,7 @@ window.addEventListener('load', function () {
 	loadSpacePirate(Q);
 
 	loadKraid(Q);
+	loadKraidBullet(Q);
 
 	loadDiagonal(Q);
 
@@ -97,7 +98,7 @@ window.addEventListener('load', function () {
 
 
 	Q.loadTMX(
-		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx',
+		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx',
 		function () {
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
@@ -110,6 +111,8 @@ window.addEventListener('load', function () {
 			Q.compileSheets('space_pirate.png', 'space_pirate.json');
 			Q.compileSheets('space_pirate_projectile.png', 'space_pirate_projectile.json');
 			Q.compileSheets('kraid.png', 'kraid.json');
+			Q.compileSheets('kraid_bullets.png', 'kraid_bullets.json');
+			Q.compileSheets('kraid_claws.png', 'kraid_claws.json');
 			Q.stageScene('level1');
 		}
 	);

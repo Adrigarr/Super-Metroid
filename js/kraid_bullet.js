@@ -1,0 +1,36 @@
+function loadKraidBullet(Q) {
+	
+	Q.animations('kraid_bullets animation', {
+	        'fire': { frames: [0], loop: false }
+	    });
+
+
+	Q.Sprite.extend('KraidBullet', {
+	    init: function (p) {
+	        this._super(p, {
+	            sprite: 'kraid_bullets animation',
+	            sheet: 'kraid_bullets',
+								x: 0,
+								y: 0,
+								vx: 0,
+	            vy: 0,
+								scale: 0.60,
+	            gravity: false,
+	        });
+
+	        this.add('2d, animation');
+
+	        this.on("hit", function (collision) {
+							if (!collision.obj.isA('KraidBullet')) {
+								this.destroy();
+							}
+	        });
+	    },
+
+	    step: function(dt) {
+	        this.play('fire');
+	    }
+
+	});
+
+}

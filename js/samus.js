@@ -89,8 +89,8 @@ function loadSamus(Q) {
 				sprite: 'samus_anim',
 				sheet: 'samus_fire',
 				w: 1,
-				x: 3715, //3075, 1540, 3220 x: 1700, y: 1672
-				y: 340, //300, 480, 900
+				x: 700, //3715, //3075, 1540, 3220 x: 1700, y: 1672
+				y: 1787, //340, //300, 480, 900
 				onAir: false,
 				state: 2, //3: saltando, 2: en pie, 1: agachado, 0: bola
 				last_vx: 0,
