@@ -1,5 +1,5 @@
 function loadKraidBullet(Q) {
-	
+
 	Q.animations('kraid_bullets animation', {
 	        'fire': { frames: [0], loop: false }
 	    });
@@ -21,9 +21,9 @@ function loadKraidBullet(Q) {
 	        this.add('2d, animation');
 
 	        this.on("hit", function (collision) {
-							if (!collision.obj.isA('KraidBullet')) {
-								this.destroy();
-							}
+				if (!collision.obj.isA('KraidBullet')) {
+					this.destroy();
+				}
 	        });
 	    },
 

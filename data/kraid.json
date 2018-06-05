@@ -3,8 +3,8 @@
     {
         "sx": 0,
         "sy": 0,
-        "tileW": 195,
+        "tileW": 179,
         "tileH": 304,
-        "frames": 10
+        "frames": 4
     }
 }
