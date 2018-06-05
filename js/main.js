@@ -2,9 +2,10 @@ window.addEventListener('load', function () {
 	var Q = (window.Q = Quintus({
 			audioSupported: ['mp3', 'ogg']
 		})
-		.include('Sprites, Scenes, Input, 2D, Anim, UI, TMX, Audio')
+		.include("Sprites, Scenes, Input, 2D, Anim, Touch, UI, TMX, Audio")
 		.setup('super-metroid')
 		.controls()
+		.touch()
 		.enableSound());
 
 
@@ -31,75 +32,122 @@ window.addEventListener('load', function () {
 		}
 	});
 
-	loadSamus(Q);
-	loadMunition(Q);
-	loadBall(Q);
-	loadMissile(Q);
+loadSamus(Q);
+loadMunition(Q);
+loadBall(Q);
+loadMissile(Q);
 
-	loadDoorR(Q);
-	loadDoorL(Q);
+loadDoorR(Q);
+loadDoorL(Q);
 
-	loadZoomer(Q);
-	loadSkree(Q);
-	loadSpacePirateProjectile(Q);
-	loadSpacePirate(Q);
+loadZoomer(Q);
+loadSkree(Q);
+loadSpacePirateProjectile(Q);
+loadSpacePirate(Q);
 
-	loadKraid(Q);
-	loadKraidBullet(Q);
+loadKraid(Q);
+loadKraidBullet(Q);
 
-	loadDiagonal(Q);
+loadDiagonal(Q);
 
 
 
-	Q.scene('level1', function (stage) {
-		Q.stageTMX('zebes.tmx', stage);
+Q.scene('level1', function (stage) {
+	Q.stageTMX('zebes.tmx', stage);
 
-		loadDoors(stage);
+	loadDoors(stage);
 
-		Q.state.set({
-			save_game: false
-		});
-
-		stage.insert(new Q.Ball());
-		stage.insert(new Q.Missile());
-		var samus = stage.insert(new Q.Samus());
-		var zoomer = stage.insert(
-			new Q.Zoomer({
-				x: 2323,
-				y: 1160
-			})
-		);
-		var skree = stage.insert(
-			new Q.Skree({
-				x: 2144,
-				y: 334
-			})
-		);
-		var space_pirate = stage.insert(
-			new Q.SpacePirate({
-				x: 1700,
-				y: 1672,
-				array: 0,
-				stop_right: 1760,
-				stop_left: 1675
-			})
-		);
-		var kraid = stage.insert(
-			new Q.Kraid({
-				x: 438,
-				y: 1648
-			})
-		);
-
-		stage.add('viewport').follow(samus);
-		stage.viewport.scale = 1;
-		stage.viewport.offsetY = 80;
+	Q.state.set({
+		save_game: false
 	});
 
+	stage.insert(new Q.Ball());
+	stage.insert(new Q.Missile());
+	var samus = stage.insert(new Q.Samus());
+	var zoomer = stage.insert(
+		new Q.Zoomer({
+			x: 2323,
+			y: 1160
+		})
+	);
+	var skree = stage.insert(
+		new Q.Skree({
+			x: 2144,
+			y: 334
+		})
+	);
+	var space_pirate = stage.insert(
+		new Q.SpacePirate({
+			x: 1700,
+			y: 1672,
+			array: 0,
+			stop_right: 1760,
+			stop_left: 1675
+		})
+	);
+	var kraid = stage.insert(
+		new Q.Kraid({
+			x: 438,
+			y: 1648
+		})
+	);
+
+	stage.add('viewport').follow(samus);
+	stage.viewport.scale = 1;
+	stage.viewport.offsetY = 80;
+});
+
+Q.scene('mainMenu',function(stage) {
+	var container = stage.insert(new Q.UI.Container({
+		x: Q.width/2, y: Q.height/2, fill: "rgba(0,0,0,0.5)"
+	}));
+	
+	var button = container.insert(new Q.UI.Button({ asset:"start.jpg" ,x: 0, y: 0, 
+	fill: "#CCCCCC", keyActionName: "confirm"}))
+
+	button.on("click",function() {
+		Q.clearStages();
+		Q.stageScene('level1');
+	});
+});
+
+
+Q.scene('endGame',function(stage) {
+	var container = stage.insert(new Q.UI.Container({
+		 x: Q.width/2, y: Q.height/2.25, fill: "#666666"
+	}));
+	
+	var reset = container.insert(new Q.UI.Button({ x: 10, y: 0, fill: "#CCCCCC",
+		label: "Reiniciar" , keyActionName: "confirm"}));
+	
+	reset.on("click",function() {
+		Q.clearStages();
+		Q.stageScene('level1');
+	});
+
+	if (Q.state.get('save_game')) {
+		var load = container.insert(new Q.UI.Button({ x: 10, y: 70	, fill: "#CCCCCC",
+			label: "Cargar" , keyActionName: "confirm"}));
+		load.on("click",function() {
+			Q.clearStages();
+			Q.stageScene('load_game');
+		});
+	}
+														
+	var label = container.insert(new Q.UI.Text({x:10, y: -20 - reset.p.h, color: "white", label: stage.options.label }));
+
+	
+
+	
+
+	container.fit(20);
+});
+	
 
 	Q.loadTMX(
-		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx',
+		'start.jpg, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, , kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx',
 		function () {
+			Q.compileSheets('start.jpg');
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
 			Q.compileSheets('rightdoor.png', 'rightdoor.json');
@@ -113,7 +161,7 @@ window.addEventListener('load', function () {
 			Q.compileSheets('kraid.png', 'kraid.json');
 			Q.compileSheets('kraid_bullets.png', 'kraid_bullets.json');
 			Q.compileSheets('kraid_claws.png', 'kraid_claws.json');
-			Q.stageScene('level1');
+			Q.stageScene("mainMenu");
 		}
 	);
 
@@ -148,14 +196,6 @@ window.addEventListener('load', function () {
 		stage.viewport.scale = 1;
 		stage.viewport.offsetY = 80;
 	});
-
-	// Llamar a este método cuando muera Samus y se quiere cargar partida en vez de reiniciar
-	function loadGame() {
-		if (Q.state.get('save_game')) {
-			Q.clearStages();
-			Q.stageScene('load_game');
-		}
-	}
 
 	function loadDoors(stage) {
 		stage.insert(
@@ -197,6 +237,12 @@ window.addEventListener('load', function () {
 		stage.insert(
 			new Q.DoorR({
 				x: 1460,
+				y: 1616
+			})
+		);
+		stage.insert(
+			new Q.DoorL({
+				x: 1212,
 				y: 1616
 			})
 		);
