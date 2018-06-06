@@ -49,7 +49,8 @@ window.addEventListener('load', function () {
 			loadDiagonal(Q);
 
 			<<
-			<< << < HEAD
+			<<
+			<< < HEAD
 			Q.scene('level1', function (stage) {
 						Q.stageTMX('zebes.tmx', stage);
 
@@ -58,14 +59,16 @@ window.addEventListener('load', function () {
 						});
 
 						loadDoors(stage); ===
-						=== =
+						===
+						=
 
 
 						Q.scene('level1', function (stage) {
 							Q.stageTMX('zebes.tmx', stage);
 
 							loadDoors(stage); >>>
-							>>> > 1 c04148bed60eac30950f4de503e9587f5dd47f9
+							>>>
+							> 1 c04148bed60eac30950f4de503e9587f5dd47f9
 
 							Q.state.set({
 								save_game: false
