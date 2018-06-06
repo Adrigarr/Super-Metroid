@@ -99,7 +99,8 @@ function loadSamus(Q) {
 				ball: false, // Controla si tiene el power up de la bola
 				missile: false, // Controla si tiene el power up de misiles
 				selected_weapon: 'fire', // Controla el arma seleccionada por el jugador
-				scale: 0.85
+				scale: 0.85,
+				battle: false
 			});
 
 			this.add('2d, platformerControls, animation');
@@ -132,6 +133,18 @@ function loadSamus(Q) {
 		step: function (dt) {
 			this.checkVelocity();
 			this.checkMovement();
+			if (!this.onAir) {
+				Q.audio.stop('jump.mp3');
+			}
+
+			if (this.p.x < 1000) {
+				Q.audio.stop('zebes.mp3');
+				if (!this.battle) {
+					Q.audio.play('kraid-battle.mp3');
+					this.battle = true;
+				}
+			}
+			console.log(this.p.x);
 		},
 
 		duck: function () {
@@ -156,13 +169,14 @@ function loadSamus(Q) {
 				this.p.state += 1;
 			}
 
-			// Si se pulsa el botón de salto, no se está en el aire  y está en el estado salto se salta
+			// Si se pulsa el botón de salto, no se está en el aire y está en el estado salto se salta
 			if (!this.onAir && this.p.state == 3) {
 				this.p.y -= 50;
 				this.onAir = true;
+				Q.audio.play('jump.mp3');
 			}
 
-			// Cuando Samus deja de usar de ser una bola recupera su tamaño original
+			// Cuando Samus deja de ser una bola recupera su tamaño original
 			if (this.p.state != 0) {
 				this.p.cx = 13.5;
 				this.p.cy = 24;
@@ -281,7 +295,12 @@ function loadSamus(Q) {
 					break;
 			}
 
-			if (weapon == 'missile') damage = 3;
+			if (weapon == 'missile') {
+				damage = 3;
+				Q.audio.play('missile.mp3');
+			} else {
+				Q.audio.play('shoot.mp3');
+			}
 
 			this.stage.insert(
 				new Q.Munition({

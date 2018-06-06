@@ -89,6 +89,7 @@ function loadSkree(Q) {
 				if (distance < 150 && distance > 0 && this.p.lock) {
 					this.p.lock = false;
 					this.play('attack');
+					Q.audio.play('skree.mp3');
 					this.p.vy = 275;
 					this.p.vx = -175;
 				}
@@ -96,6 +97,7 @@ function loadSkree(Q) {
 				else if (distance > -150 && distance < 0 && this.p.lock) {
 					this.p.lock = false;
 					this.play('attack');
+					Q.audio.play('skree.mp3');
 					this.p.vy = 275;
 					this.p.vx = 175;
 				} else {

@@ -15,6 +15,12 @@ function loadDoorL(Q) {
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
 					this.play('open');
+					Q.audio.play('open.mp3');
+
+					setTimeout(function () {
+						Q.audio.play('close.mp3');
+					}, 800);
+
 
 					// Si se trata de la puerta de acceso a la sala de guardado, se guarda en state los datos de interes
 					if (
@@ -34,5 +40,5 @@ function loadDoorL(Q) {
 			});
 		}
 	});
-	
+
 }

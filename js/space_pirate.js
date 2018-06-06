@@ -158,6 +158,7 @@ function loadSpacePirate(Q) {
 				});
 				this.stage.insert(projectile);
 				this.p.deltaTime = 0;
+				Q.audio.play('space-pirate-proyectile.mp3');
 			} else {
 				this.p.deltaTime = this.p.deltaTime + 1;
 			}

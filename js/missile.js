@@ -12,6 +12,7 @@ function loadMissile(Q) {
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
 					collision.obj.p.missile = true;
+					Q.audio.play('powerup.mp3');
 					this.destroy();
 				}
 			});
@@ -19,5 +20,5 @@ function loadMissile(Q) {
 			this.play('shine');
 		}
 	});
-	
+
 }

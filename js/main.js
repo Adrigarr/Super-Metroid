@@ -1,13 +1,11 @@
 window.addEventListener('load', function () {
 	var Q = (window.Q = Quintus({
-			audioSupported: ['mp3', 'ogg']
+			audioSupported: ['mp3', 'ogg', 'wav']
 		})
 		.include('Sprites, Scenes, Input, 2D, Anim, UI, TMX, Audio')
 		.setup('super-metroid')
 		.controls()
 		.enableSound());
-
-
 
 	Q.animations('doors', {
 		open: {
@@ -48,10 +46,12 @@ window.addEventListener('load', function () {
 
 	loadDiagonal(Q);
 
-
-
 	Q.scene('level1', function (stage) {
 		Q.stageTMX('zebes.tmx', stage);
+
+		Q.audio.play('zebes.mp3', {
+			loop: true
+		});
 
 		loadDoors(stage);
 
@@ -95,9 +95,8 @@ window.addEventListener('load', function () {
 		stage.viewport.offsetY = 80;
 	});
 
-
 	Q.loadTMX(
-		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx',
+		'samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3',
 		function () {
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');

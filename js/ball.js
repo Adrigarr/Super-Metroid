@@ -12,6 +12,7 @@ function loadBall(Q) {
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
 					collision.obj.p.ball = true;
+					Q.audio.play('powerup.mp3');
 					this.destroy();
 				}
 			});
