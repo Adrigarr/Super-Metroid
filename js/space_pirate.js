@@ -54,7 +54,9 @@ function loadSpacePirate(Q) {
 				lock: true,
 				die: false,
 				collision: false,
-				deltaTime: 0
+				deltaTime: 0,
+				damage: 2,
+				lives: 2
 			});
 			/**
 			 * Los módulos Quintus necesarios.
@@ -89,9 +91,14 @@ function loadSpacePirate(Q) {
 		 */
 		hit: function (collision) {
 			if (collision.obj.isA('Munition')) {
-				if (!this.p.collision) {
+				this.p.lives -= collision.obj.p.damage;
+				if (!this.p.collision && this.p.lives <=0) {
 					this.trigger('die');
 				}
+			}
+			else if(collision.obj.isA('Samus')){
+				collision.obj.checkLives(this.p.damage);
+				this.trigger('die');
 			}
 		},
 		/**
@@ -150,9 +157,9 @@ function loadSpacePirate(Q) {
 			this.p.vx = 0;
 			this.p.sheet = 'space_pirate_fire_left';
 
-			if (this.p.deltaTime >= 120) {
+			if (this.p.deltaTime >= 60) {
 				var projectile = new Q.SpacePirateProjectile({
-					x: this.p.x - 35,
+					x: this.p.x - 30,
 					y: this.p.y,
 					vx: -100
 				});
@@ -169,9 +176,9 @@ function loadSpacePirate(Q) {
 			this.p.direction = 'fireR';
 			this.p.vx = 0;
 			this.p.sheet = 'space_pirate_fire_right';
-			if (this.p.deltaTime >= 120) {
+			if (this.p.deltaTime >= 60) {
 				var projectile = new Q.SpacePirateProjectile({
-					x: this.p.x + 35,
+					x: this.p.x + 30,
 					y: this.p.y,
 					vx: +100
 				});

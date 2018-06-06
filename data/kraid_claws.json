@@ -1,10 +1,10 @@
 {
-    "kraid":
+    "kraid_claw":
     {
         "sx": 0,
         "sy": 0,
-        "tileW": 179,
-        "tileH": 304,
+        "tileW": 21,
+        "tileH": 21,
         "frames": 4
     }
 }

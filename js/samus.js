@@ -89,8 +89,8 @@ function loadSamus(Q) {
 				sprite: 'samus_anim',
 				sheet: 'samus_fire',
 				w: 1,
-				x: 3715, //3075, 1540, 3220 x: 1700, y: 1672
-				y: 340, //300, 480, 900
+				x: 700, //3715, //3075, 1540, 3220 x: 1700, y: 1672
+				y: 1787, //340, //300, 480, 900
 				onAir: false,
 				state: 2, //3: saltando, 2: en pie, 1: agachado, 0: bola
 				last_vx: 0,
@@ -100,17 +100,19 @@ function loadSamus(Q) {
 				missile: false, // Controla si tiene el power up de misiles
 				selected_weapon: 'fire', // Controla el arma seleccionada por el jugador
 				scale: 0.85,
+<<<<<<< HEAD
 				battle: false
+=======
+				lives: 3
+>>>>>>> 1c04148bed60eac30950f4de503e9587f5dd47f9
 			});
 
 			this.add('2d, platformerControls, animation');
 
 			// Trigger de la animacion al morir
 			this.on('destroy', function () {
-				Q.stageScene('endGame', 1, {
-					label: 'Has muerto!'
-				});
-				this.destroy();
+				Q.stageScene('endGame', 1, {label: "Has muerto"});
+				this.p.hidden = true;
 			});
 
 			this.on('bump.bottom', this, 'floor');
@@ -295,12 +297,16 @@ function loadSamus(Q) {
 					break;
 			}
 
+<<<<<<< HEAD
 			if (weapon == 'missile') {
 				damage = 3;
 				Q.audio.play('missile.mp3');
 			} else {
 				Q.audio.play('shoot.mp3');
 			}
+=======
+			if (weapon == 'missile') damage = 2;
+>>>>>>> 1c04148bed60eac30950f4de503e9587f5dd47f9
 
 			this.stage.insert(
 				new Q.Munition({
@@ -317,6 +323,13 @@ function loadSamus(Q) {
 
 		// Controla la velocidad de Samus según su estado
 		checkVelocity: function () {
+			
+			// Si Samus ha ocultado al morir no se permite mover
+			if(this.p.hidden){
+				this.p.vx = 0;
+				this.p.vy = 0;
+			}
+
 			// Si Samus está agachada no se le permite moverse
 			if (this.p.state == 1) {
 				this.p.vx = 0;
@@ -328,6 +341,17 @@ function loadSamus(Q) {
 			/* Si Samus no está en estado de salto y se da a saltar,
 			se fija velocidad de 0 para no saltar en el cambio de animación */
 			if (this.p.state < 3 && Q.inputs['up']) this.p.vy = 0;
+		},
+
+		checkLives: function(damage){
+			this.p.lives -= damage;
+			// Muestra la pantalla de fin juego
+			if(this.p.lives <= 0)
+				this.trigger('destroy');
+			// Actualiza el HUD de Samus quitando una vida
+			else{
+
+			}
 		},
 
 		// Controla el movimiento de Samus según su estado

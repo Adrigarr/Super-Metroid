@@ -31,7 +31,9 @@ function loadZoomer(Q) {
 				 * Atributos adicionales.
 				 */
 				die: false,
-				collision: false
+				collision: false,
+				damage: 2,
+				lives: 2
 			});
 			/**
 			 * Los módulos Quintus necesarios.
@@ -62,9 +64,14 @@ function loadZoomer(Q) {
 		 */
 		hit: function (collision) {
 			if (collision.obj.isA('Munition')) {
-				if (!this.p.collision) {
+				this.p.lives -= collision.obj.p.damage;
+				if (!this.p.collision && this.p.lives <=0) {
 					this.trigger('die');
 				}
+			}
+			else if(collision.obj.isA('Samus')){
+				collision.obj.checkLives(this.p.damage);
+				this.trigger('die');
 			}
 		},
 

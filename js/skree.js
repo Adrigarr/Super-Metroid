@@ -35,7 +35,8 @@ function loadSkree(Q) {
 				 */
 				lock: true,
 				die: false,
-				collision: false
+				collision: false,
+				damage: 1
 			});
 			/**
 			 * Los módulos Quintus necesarios.
@@ -51,12 +52,14 @@ function loadSkree(Q) {
 		/**
 		 * Muere el Skree.
 		 */
-		die: function () {
-			this.p.die = true;
+		die: function (collision) {
+			
 			this.p.vy = 70;
-			setTimeout(function () {
-				Q('Skree').destroy();
-			}, 200);
+			
+			if(collision.obj.isA('Samus')) 
+				collision.obj.checkLives(this.p.damage);
+
+			this.destroy();
 		},
 
 		hit: function (collision) {
