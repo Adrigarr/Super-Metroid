@@ -141,7 +141,7 @@ window.addEventListener('load', function () {
 	});
 
 	Q.loadTMX(
-		'start.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3',
+		'start.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3',
 		function () {
 			Q.compileSheets('start.jpg');
 			Q.compileSheets('samus.png', 'samus.json');

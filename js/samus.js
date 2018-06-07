@@ -145,7 +145,6 @@ function loadSamus(Q) {
 					this.battle = true;
 				}
 			}
-			console.log(this.p.x);
 		},
 
 		duck: function () {
@@ -329,6 +328,17 @@ function loadSamus(Q) {
 			/* Si Samus no está en estado de salto y se da a saltar,
 			se fija velocidad de 0 para no saltar en el cambio de animación */
 			if (this.p.state < 3 && Q.inputs['up']) this.p.vy = 0;
+		},
+
+		checkLives: function(damage){
+			this.p.lives -= damage;
+			// Muestra la pantalla de fin juego
+			if(this.p.lives <= 0)
+				this.trigger('destroy');
+			// Actualiza el HUD de Samus quitando una vida
+			else{
+
+			}
 		},
 
 		// Controla el movimiento de Samus según su estado
