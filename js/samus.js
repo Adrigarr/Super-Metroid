@@ -108,10 +108,8 @@ function loadSamus(Q) {
 
 			// Trigger de la animacion al morir
 			this.on('destroy', function () {
-				Q.stageScene('endGame', 1, {
-					label: 'Has muerto!'
-				});
-				this.destroy();
+				Q.stageScene('endGame', 1, {label: "Has muerto"});
+				this.p.hidden = true;
 			});
 
 			this.on('bump.bottom', this, 'floor');
