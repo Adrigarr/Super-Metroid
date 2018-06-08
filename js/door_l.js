@@ -18,7 +18,6 @@ function loadDoorL(Q) {
 					Q('Samus').items[0].p.y >= 1530 &&
 					Q('Samus').items[0].p.y <= 1532
 				) {
-					console.log("hola");
 					Q.state.set({
 						save_game: true
 					});

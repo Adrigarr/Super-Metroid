@@ -65,7 +65,6 @@ function loadSpacePirate(Q) {
 			/**
 			 * Definición de las funciones adicionales.
 			 */
-			//this.on('bump.top', this, 'top');
 			this.on('bump.left, bump.right, bump.top, bump.bottom', this, 'hit');
 			this.on('fire_left');
 			this.on('fire_right');
@@ -81,9 +80,8 @@ function loadSpacePirate(Q) {
 			this.p.speed = 0;
 			this.p.vx = 0;
 
-			setTimeout(function () {
-				Q('SpacePirate').destroy();
-			}, 200);
+			this.destroy();
+
 		},
 
 		/**
@@ -98,20 +96,8 @@ function loadSpacePirate(Q) {
 			}
 			else if(collision.obj.isA('Samus')){
 				collision.obj.checkLives(this.p.damage);
-				this.trigger('die');
 			}
 		},
-		/**
-         * En caso de que Mario choque contra él, Mario muere.
-
-        collision: function(collision) {
-            if (collision.obj.isA('Mario')) {
-                if(!this.p.collision){
-                    collision.obj.trigger('die');
-                    this.p.collision = true;
-                }
-            }
-        },*/
 
 		/**
 		 *   Se detiene, mira a los lados y gira a la izquierda.

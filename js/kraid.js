@@ -18,16 +18,38 @@ function loadKraid(Q) {
 				 * Sprite del Skree.
 				 */
 				sheet: 'kraid',
-				bullet_cd: 0
+				bullet_cd: 0,
+				lives: 10
 			});
 			/**
 			 * Los módulos Quintus necesarios.
 			 */
 			this.add('2d, animation');
 
+			this.on('bump.left, bump.right, bump.top', this, 'hit');
+			this.on('die');
 			this.on('bullet1');
 			this.on('bullet2');
 			this.on('bullet3');
+		},
+
+		die: function () {
+			this.destroy();
+		},
+
+		/**
+		* Función que se dispara al ser golpeado
+		*/
+		hit: function (collision) {
+			if (collision.obj.isA('Munition')) {
+				this.p.lives -= collision.obj.p.damage;
+				if (this.p.lives <=0) {
+					this.trigger('die');
+				}
+			}
+			else if(collision.obj.isA('Samus')){
+				collision.obj.checkLives(this.p.damage);
+			}
 		},
 
 		bullet1: function(){
