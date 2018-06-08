@@ -119,25 +119,29 @@ window.addEventListener('load', function () {
 	});
 
 
-	Q.scene('endGame', function (stage) {
+	Q.scene('endGame',function(stage) {
 		var container = stage.insert(new Q.UI.Container({
-			x: Q.width / 2,
-			y: Q.height / 2.25,
-			fill: "#666666"
+			 x: Q.width/2, y: Q.height/2.25, fill: "#666666"
 		}));
-
-		var reset = container.insert(new Q.UI.Button({
-			x: 10,
-			y: 0,
-			fill: "#CCCCCC",
-			label: "Reiniciar",
-			keyActionName: "confirm"
-		}));
-
-		reset.on("click", function () {
+		
+		var reset = container.insert(new Q.UI.Button({ x: 10, y: 0, fill: "#CCCCCC",
+			label: "Reiniciar" , keyActionName: "confirm"}));
+		
+		reset.on("click",function() {
 			Q.clearStages();
 			Q.stageScene('level1');
 		});
+	
+		if (Q.state.get('save_game')) {
+			var load = container.insert(new Q.UI.Button({ x: 10, y: 70	, fill: "#CCCCCC",
+				label: "Cargar" , keyActionName: "confirm"}));
+			load.on("click",function() {
+				Q.clearStages();
+				Q.stageScene('load_game');
+			});
+		}											
+		var label = container.insert(new Q.UI.Text({x:10, y: -20 - reset.p.h, color: "white", label: stage.options.label }));
+		container.fit(20);
 	});
 
 	Q.loadTMX(
