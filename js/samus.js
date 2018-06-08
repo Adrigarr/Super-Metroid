@@ -315,6 +315,13 @@ function loadSamus(Q) {
 
 		// Controla la velocidad de Samus según su estado
 		checkVelocity: function () {
+
+				// Si Samus ha ocultado al morir no se permite mover
+			if(this.p.hidden){
+				this.p.vx = 0;
+				this.p.vy = 0;
+			}
+
 			// Si Samus está agachada no se le permite moverse
 			if (this.p.state == 1) {
 				this.p.vx = 0;
