@@ -54,7 +54,7 @@ function loadSpacePirate(Q) {
 				lock: true,
 				die: false,
 				collision: false,
-				deltaTime: 0,
+				deltaTime: 60,
 				damage: 2,
 				lives: 2
 			});
@@ -143,15 +143,16 @@ function loadSpacePirate(Q) {
 			this.p.vx = 0;
 			this.p.sheet = 'space_pirate_fire_left';
 
-			if (this.p.deltaTime >= 60) {
+			if (this.p.deltaTime >= 50) {
+				Q.audio.play('space-pirate-proyectile.mp3');
 				var projectile = new Q.SpacePirateProjectile({
-					x: this.p.x - 30,
+					x: this.p.x - 24,
 					y: this.p.y,
 					vx: -100
 				});
 				this.stage.insert(projectile);
 				this.p.deltaTime = 0;
-				Q.audio.play('space-pirate-proyectile.mp3');
+				
 			} else {
 				this.p.deltaTime = this.p.deltaTime + 1;
 			}
@@ -162,9 +163,10 @@ function loadSpacePirate(Q) {
 			this.p.direction = 'fireR';
 			this.p.vx = 0;
 			this.p.sheet = 'space_pirate_fire_right';
-			if (this.p.deltaTime >= 60) {
+			if (this.p.deltaTime >= 50) {
+				Q.audio.play('space-pirate-proyectile.mp3');
 				var projectile = new Q.SpacePirateProjectile({
-					x: this.p.x + 30,
+					x: this.p.x + 24,
 					y: this.p.y,
 					vx: +100
 				});
