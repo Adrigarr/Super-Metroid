@@ -10,11 +10,13 @@ function loadMissile(Q) {
 				frame: 0
 			});
 			this.on('hit', function (collision) {
-				if (collision.obj.isA('Samus')) {
-					collision.obj.p.missile = true;
-					Q.audio.play('powerup.mp3');
-					this.destroy();
-				}
+				Q.audio.stop('zebes.mp3');
+				Q.audio.play('powerup.mp3');
+				collision.obj.p.missile = true;
+				this.destroy();
+				setTimeout(function () {
+					Q.audio.play('zebes.mp3');
+				}, 5000);
 			});
 			this.add('animation, tween');
 			this.play('shine');

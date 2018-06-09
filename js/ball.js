@@ -11,9 +11,13 @@ function loadBall(Q) {
 			});
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
-					collision.obj.p.ball = true;
+					Q.audio.stop('zebes.mp3');
 					Q.audio.play('powerup.mp3');
+					collision.obj.p.ball = true;
 					this.destroy();
+					setTimeout(function () {
+						Q.audio.play('zebes.mp3');
+					}, 5000);
 				}
 			});
 			this.add('animation, tween');

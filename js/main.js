@@ -1,6 +1,6 @@
 window.addEventListener('load', function () {
 	var Q = (window.Q = Quintus({
-			audioSupported: ['mp3', 'ogg', 'wav']
+			audioSupported: ['mp3', 'ogg']
 		})
 		.include("Sprites, Scenes, Input, 2D, Anim, Touch, UI, TMX, Audio")
 		.setup('super-metroid')
@@ -38,6 +38,8 @@ window.addEventListener('load', function () {
 	loadDoorR(Q);
 	loadDoorL(Q);
 
+	loadSavePoint(Q);
+
 	loadZoomer(Q);
 	loadSkree(Q);
 	loadSpacePirateProjectile(Q);
@@ -51,6 +53,8 @@ window.addEventListener('load', function () {
 	Q.scene('level1', function (stage) {
 		Q.stageTMX('zebes.tmx', stage);
 
+		Q.audio.stop('kraid-battle.mp3')
+		Q.audio.stop('zebes.mp3');
 		Q.audio.play('zebes.mp3', {
 			loop: true
 		});
@@ -150,33 +154,50 @@ window.addEventListener('load', function () {
 	});
 
 
-	Q.scene('endGame',function(stage) {
+	Q.scene('endGame', function (stage) {
 		var container = stage.insert(new Q.UI.Container({
-			 x: Q.width/2, y: Q.height/2.25, fill: "#666666"
+			x: Q.width / 2,
+			y: Q.height / 2.25,
+			fill: "#666666"
 		}));
-		
-		var reset = container.insert(new Q.UI.Button({ x: 10, y: 0, fill: "#CCCCCC",
-			label: "Reiniciar" , keyActionName: "confirm"}));
-		
-		reset.on("click",function() {
+
+		var reset = container.insert(new Q.UI.Button({
+			x: 10,
+			y: 0,
+			fill: "#CCCCCC",
+			label: "Reiniciar",
+			keyActionName: "confirm"
+		}));
+
+		reset.on("click", function () {
 			Q.clearStages();
 			Q.stageScene('level1');
 		});
-	
+
 		if (Q.state.get('save_game')) {
-			var load = container.insert(new Q.UI.Button({ x: 10, y: 70	, fill: "#CCCCCC",
-				label: "Cargar" , keyActionName: "confirm"}));
-			load.on("click",function() {
+			var load = container.insert(new Q.UI.Button({
+				x: 10,
+				y: 70,
+				fill: "#CCCCCC",
+				label: "Cargar",
+				keyActionName: "confirm"
+			}));
+			load.on("click", function () {
 				Q.clearStages();
 				Q.stageScene('load_game');
 			});
-		}											
-		var label = container.insert(new Q.UI.Text({x:10, y: -20 - reset.p.h, color: "white", label: stage.options.label }));
+		}
+		var label = container.insert(new Q.UI.Text({
+			x: 10,
+			y: -20 - reset.p.h,
+			color: "white",
+			label: stage.options.label
+		}));
 		container.fit(20);
 	});
 
 	Q.loadTMX(
-		'start.jpg, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3',
+		'start.jpg, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3',
 		function () {
 			Q.compileSheets('start.jpg');
 			Q.compileSheets('samus.png', 'samus.json');

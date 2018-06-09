@@ -11,15 +11,16 @@ function loadDoorR(Q) {
 			this.on('endAnimation', function () {
 				this.p.frame = 0;
 				Q('Samus').trigger('tpL');
+				Q.audio.play('close.mp3');
+				this.p.lock = false;
 			});
 			this.on('hit', function (collision) {
 				if (collision.obj.isA('Samus')) {
 					this.play('open');
-					Q.audio.play('open.mp3');
-
-					setTimeout(function () {
-						Q.audio.play('close.mp3');
-					}, 800);
+					if (!this.p.lock) {
+						this.p.lock = true;
+						Q.audio.play('open.mp3');
+					}
 				}
 			});
 		}
