@@ -146,8 +146,6 @@ function loadSamus(Q) {
 					this.battle = true;
 				}
 			}
-
-			console.log(this.p.firerate);
 		},
 
 		duck: function () {
