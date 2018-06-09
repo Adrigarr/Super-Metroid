@@ -199,10 +199,25 @@ window.addEventListener('load', function () {
 		container.fit(20);
 	});
 
+	Q.scene('winGame',function(stage) {
+		var container = stage.insert(new Q.UI.Container({
+		  x: Q.width/2, y: Q.height/2, fill: "rgba(0,0,0,0.5)"
+		}));
+		
+		var button = container.insert(new Q.UI.Button({ asset:"ending.png" ,x: 0, y: 0, 
+		fill: "#CCCCCC", keyActionName: "confirm"}))
+	  
+		button.on("click",function() {
+		  Q.clearStages();
+		  Q.stageScene('mainMenu');
+		});
+	  });
+
 	Q.loadTMX(
-		'start2.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
+		'start2.png, ending.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
 		function () {
 			Q.compileSheets('start2.png');
+			Q.compileSheets('ending.png');
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
 			Q.compileSheets('rightdoor.png', 'rightdoor.json');
