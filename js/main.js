@@ -1,8 +1,8 @@
-window.addEventListener('load', function () {
+window.addEventListener('load', function() {
 	var Q = (window.Q = Quintus({
-			audioSupported: ['mp3', 'ogg']
-		})
-		.include("Sprites, Scenes, Input, 2D, Anim, Touch, UI, TMX, Audio")
+		audioSupported: ['mp3', 'ogg']
+	})
+		.include('Sprites, Scenes, Input, 2D, Anim, Touch, UI, TMX, Audio')
 		.setup('super-metroid')
 		.controls()
 		.touch()
@@ -51,10 +51,10 @@ window.addEventListener('load', function () {
 
 	loadDiagonal(Q);
 
-	Q.scene('level1', function (stage) {
+	Q.scene('level1', function(stage) {
 		Q.stageTMX('zebes.tmx', stage);
 
-		Q.audio.stop('kraid-battle.mp3')
+		Q.audio.stop('kraid-battle.mp3');
 		Q.audio.stop('zebes.mp3');
 		Q.audio.play('zebes.mp3', {
 			loop: true
@@ -69,7 +69,6 @@ window.addEventListener('load', function () {
 		stage.insert(new Q.Ball());
 		stage.insert(new Q.Missile());
 		var samus = stage.insert(new Q.Samus());
-
 
 		var zoomer1 = stage.insert(
 			new Q.Zoomer({
@@ -161,108 +160,148 @@ window.addEventListener('load', function () {
 		stage.viewport.offsetY = 80;
 	});
 
-	Q.scene('mainMenu', function (stage) {
-		var container = stage.insert(new Q.UI.Container({
-			x: Q.width / 2,
-			y: Q.height / 2,
-			fill: "rgba(0,0,0,0.5)"
-		}));
+	Q.scene('mainMenu', function(stage) {
+		var container = stage.insert(
+			new Q.UI.Container({
+				x: Q.width / 2,
+				y: Q.height / 2,
+				fill: 'rgba(0,0,0,0.5)'
+			})
+		);
 
-		var button = container.insert(new Q.UI.Button({
-			asset: "start2.png",
-			x: 0,
-			y: 0,
-			fill: "#CCCCCC",
-			keyActionName: "confirm"
-		}));
+		var button = container.insert(
+			new Q.UI.Button({
+				asset: 'start2.png',
+				x: 0,
+				y: 0,
+				fill: '#CCCCCC',
+				keyActionName: 'confirm'
+			})
+		);
 
 		Q.audio.play('title.mp3');
 
-		button.on("click", function () {
+		button.on('click', function() {
 			Q.audio.stop('title.mp3');
 			Q.clearStages();
 			Q.stageScene('level1');
-			Q.stageScene('hud_lives', 3, {asset: "3.png"});
+			Q.stageScene('hud_lives', 3, { asset: '3.png' });
 		});
 	});
 
+	Q.scene('endGame', function(stage) {
+		var container = stage.insert(
+			new Q.UI.Container({
+				x: Q.width / 2,
+				y: Q.height / 2.25,
+				fill: '#666666'
+			})
+		);
 
-	Q.scene('endGame', function (stage) {
-		var container = stage.insert(new Q.UI.Container({
-			x: Q.width / 2,
-			y: Q.height / 2.25,
-			fill: "#666666"
-		}));
+		var reset = container.insert(
+			new Q.UI.Button({
+				x: 10,
+				y: 0,
+				fill: '#CCCCCC',
+				label: 'Reiniciar',
+				keyActionName: 'confirm'
+			})
+		);
 
-		var reset = container.insert(new Q.UI.Button({
-			x: 10,
-			y: 0,
-			fill: "#CCCCCC",
-			label: "Reiniciar",
-			keyActionName: "confirm"
-		}));
-
-		reset.on("click", function () {
+		reset.on('click', function() {
 			Q.clearStages();
 			Q.stageScene('level1');
-			Q.stageScene('hud_lives', 3, {asset: "3.png"});
+			Q.stageScene('hud_lives', 3, { asset: '3.png' });
 		});
 
 		if (Q.state.get('save_game')) {
-			var load = container.insert(new Q.UI.Button({
-				x: 10,
-				y: 70,
-				fill: "#CCCCCC",
-				label: "Cargar",
-				keyActionName: "confirm"
-			}));
-			load.on("click", function () {
+			var load = container.insert(
+				new Q.UI.Button({
+					x: 10,
+					y: 70,
+					fill: '#CCCCCC',
+					label: 'Cargar',
+					keyActionName: 'confirm'
+				})
+			);
+			load.on('click', function() {
 				Q.clearStages();
 				Q.stageScene('load_game');
 			});
 		}
-		var label = container.insert(new Q.UI.Text({
-			x: 10,
-			y: -20 - reset.p.h,
-			color: "white",
-			label: stage.options.label
-		}));
+		var label = container.insert(
+			new Q.UI.Text({
+				x: 10,
+				y: -20 - reset.p.h,
+				color: 'white',
+				label: stage.options.label
+			})
+		);
 		container.fit(20);
 	});
 
-	Q.scene('winGame',function(stage) {
-		var container = stage.insert(new Q.UI.Container({
-		  x: Q.width/2, y: Q.height/2, fill: "rgba(0,0,0,0.5)"
-		}));
-		
-		var button = container.insert(new Q.UI.Button({ asset:"ending.png" ,x: 0, y: 0, 
-		fill: "#CCCCCC", keyActionName: "confirm"}))
-	  
-		button.on("click",function() {
-		  Q.clearStages();
-		  Q.stageScene('mainMenu');
+	Q.scene('winGame', function(stage) {
+		var container = stage.insert(
+			new Q.UI.Container({
+				x: Q.width / 2,
+				y: Q.height / 2,
+				fill: 'rgba(0,0,0,0.5)'
+			})
+		);
+
+		var button = container.insert(
+			new Q.UI.Button({
+				asset: 'ending.png',
+				x: 0,
+				y: 0,
+				fill: '#CCCCCC',
+				keyActionName: 'confirm'
+			})
+		);
+
+		button.on('click', function() {
+			Q.clearStages();
+			Q.stageScene('mainMenu');
 		});
-	  });
+	});
 
-	  Q.scene('hud_lives',function(stage) {
-		var container = stage.insert(new Q.UI.Container({
-		  x: 30, y: 20
-		}));
-	
-		var button = container.insert(new Q.UI.Button({ asset: stage.options.asset ,x: 0, y: 0, 
-		fill: "#CCCCCC", }))
-		container.fit(16);
-	  });
+	Q.scene('hud_lives', function(stage) {
+		var container = stage.insert(
+			new Q.UI.Container({
+				x: 30,
+				y: 20
+			})
+		);
 
-	  Q.scene('hud_missile',function(stage) {
-		var container = stage.insert(new Q.UI.Container({
-		  x: 30, y: 40
-		}));
-	
-		var button = container.insert(new Q.UI.Button({ asset: stage.options.asset ,x: 0, y: 0, 
-		fill: "#CCCCCC", }))
+		var button = container.insert(
+			new Q.UI.Button({
+				asset: stage.options.asset,
+				x: 0,
+				y: 0,
+				fill: '#CCCCCC'
+			})
+		);
 		container.fit(16);
-	  });
+	});
+
+	Q.scene('hud_missile', function(stage) {
+		var container = stage.insert(
+			new Q.UI.Container({
+				x: 30,
+				y: 40
+			})
+		);
+
+		var button = container.insert(
+			new Q.UI.Button({
+				asset: stage.options.asset,
+				x: 0,
+				y: 0,
+				fill: '#CCCCCC'
+			})
+		);
+		container.fit(16);
+	});
 
 	Q.loadTMX(
 		'start2.png, Ending.png, 0.png, 1.png, 2.png, 3.png, missileOn.png, missileOff.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, missile_explosion.png, missile_explosion.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, spikes.png, spikes.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
@@ -291,14 +330,21 @@ window.addEventListener('load', function () {
 			Q.compileSheets('kraid_bullets.png', 'kraid_bullets.json');
 			Q.compileSheets('kraid_claws.png', 'kraid_claws.json');
 			Q.compileSheets('spikes.png', 'spikes.json');
-			Q.stageScene("mainMenu");
+			Q.stageScene('mainMenu');
 		}
 	);
 
 	// Esta escena carga la partida desde la sala de guardado cuando Samus muere
-	Q.scene('load_game', function (stage) {
+	Q.scene('load_game', function(stage) {
 		Q.stageTMX('zebes.tmx', stage);
 		loadDoors(stage);
+
+		Q.audio.stop('kraid-battle.mp3');
+		Q.audio.stop('zebes.mp3');
+		Q.audio.play('zebes.mp3', {
+			loop: true
+		});
+
 		var samus = stage.insert(
 			new Q.Samus({
 				misille: Q.state.get('hasMissile'),
@@ -323,7 +369,7 @@ window.addEventListener('load', function () {
 			})
 		);
 
-				var spikes1 = stage.insert(
+		var spikes1 = stage.insert(
 			new Q.Spikes({
 				x: 640,
 				y: 1800
@@ -396,12 +442,6 @@ window.addEventListener('load', function () {
 		stage.insert(
 			new Q.DoorR({
 				x: 1460,
-				y: 1616
-			})
-		);
-		stage.insert(
-			new Q.DoorL({
-				x: 1212,
 				y: 1616
 			})
 		);
