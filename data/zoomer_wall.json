@@ -1,0 +1,10 @@
+{
+    "zoomer_wall":
+    {
+        "sx": 0,
+        "sy": 0,
+        "tileW": 17,
+        "tileH": 22,
+        "frames": 12
+    }
+}

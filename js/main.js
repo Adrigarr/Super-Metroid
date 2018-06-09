@@ -64,12 +64,43 @@ window.addEventListener('load', function () {
 		stage.insert(new Q.Ball());
 		stage.insert(new Q.Missile());
 		var samus = stage.insert(new Q.Samus());
-		var zoomer = stage.insert(
+
+
+		var zoomer1 = stage.insert(
 			new Q.Zoomer({
 				x: 2323,
 				y: 1160
 			})
 		);
+
+		var zoomer2 = stage.insert(
+			new Q.Zoomer({
+				x: 1836,
+				y: 906,
+				sprite: 'zoomer_wall_left animation',
+				sheet: 'zoomer_wall',
+				vx: 0,
+				vy: 50,
+				gravityY: 0,
+				gravityX: -100,
+				wall: true
+			})
+		);
+
+		var zoomer3 = stage.insert(
+			new Q.Zoomer({
+				x: 2132,
+				y: 906,
+				sprite: 'zoomer_wall_right animation',
+				sheet: 'zoomer_wall',
+				vx: 0,
+				vy: 50,
+				gravityY: 0,
+				gravityX: 100,
+				wall: true
+			})
+		);
+
 		var skree = stage.insert(
 			new Q.Skree({
 				x: 2144,
@@ -145,7 +176,7 @@ window.addEventListener('load', function () {
 	});
 
 	Q.loadTMX(
-		'start.jpg, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3',
+		'start.jpg, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3',
 		function () {
 			Q.compileSheets('start.jpg');
 			Q.compileSheets('samus.png', 'samus.json');
@@ -155,6 +186,7 @@ window.addEventListener('load', function () {
 			Q.compileSheets('ball.png', 'ball.json');
 			Q.compileSheets('missile.png', 'missile.json');
 			Q.compileSheets('zoomer.png', 'zoomer.json');
+			Q.compileSheets('zoomer_wall.png', 'zoomer_wall.json');
 			Q.compileSheets('skree.png', 'skree.json');
 			Q.compileSheets('space_pirate.png', 'space_pirate.json');
 			Q.compileSheets('space_pirate_projectile.png', 'space_pirate_projectile.json');

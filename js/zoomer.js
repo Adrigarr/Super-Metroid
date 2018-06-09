@@ -10,6 +10,29 @@ function loadZoomer(Q) {
 			loop: false
 		}
 	});
+
+	Q.animations('zoomer_wall_left animation', {
+		zoomerLive: {
+			frames: [0, 2, 4],
+			rate: 1 / 2
+		},
+		zoomerDie: {
+			frames: [6],
+			loop: false
+		}
+	});
+
+	Q.animations('zoomer_wall_right animation', {
+		zoomerLive: {
+			frames: [11, 9, 7],
+			rate: 1 / 2
+		},
+		zoomerDie: {
+			frames: [5],
+			loop: false
+		}
+	});
+
 	/**
 	 * Clase que representa al enemigo Zoomer.
 	 */
@@ -33,17 +56,24 @@ function loadZoomer(Q) {
 				die: false,
 				collision: false,
 				damage: 2,
-				lives: 2
+				lives: 2,
+				wall: false
 			});
 			/**
 			 * Los módulos Quintus necesarios.
 			 */
-			this.add('2d, animation, aiBounce');
+			if(!this.p.wall)
+				this.add('2d, animation, aiBounce');
+			else {
+				this.add('2d, animation');
+				this.on('bump.top', this, 'goDown');
+				this.on('bump.bottom', this, 'goUp');
+			}
 			/**
 			 * Definición de las funciones adicionales.
 			 */
-			//this.on('bump.top', this, 'top');
-			this.on('bump.left, bump.right, bump.top', this, 'hit');
+			this.on('bump.left, bump.right, bump.top, bump.bottom', this, 'hit');
+			
 			this.on('die');
 		},
 		/**
@@ -54,9 +84,21 @@ function loadZoomer(Q) {
 			this.p.speed = 0;
 			this.p.vx = 0;
 
-			setTimeout(function () {
-				Q('Zoomer').destroy();
-			}, 200);
+			this.destroy();
+		},
+
+		goDown: function (collision) {
+			if (!collision.obj.isA('Munition') && !collision.obj.isA('Samus')) {
+				this.p.vy = 50;
+				
+			}
+		},
+
+		goUp: function (collision) {
+			if (!collision.obj.isA('Munition') && !collision.obj.isA('Samus')) {
+				this.p.vy = -50;
+				
+			}
 		},
 
 		/**
