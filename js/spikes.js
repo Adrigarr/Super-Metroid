@@ -22,7 +22,7 @@ function loadSpikes(Q) {
 	    },
 
 	    hit: function(collision) {
-	    	if(collision.obj.isA("Samus") && this.p.cd == 60) {
+	    	if(collision.obj.isA("Samus") && this.p.cd == 70) {
 	    		this.p.cd = 0;
 				collision.obj.checkLives(this.p.damage);
 			}

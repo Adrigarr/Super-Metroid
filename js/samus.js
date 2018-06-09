@@ -80,6 +80,18 @@ function loadSamus(Q) {
 		ball: {
 			frames: [0, 1, 2, 3, 4, 5, 6, 7],
 			rate: 1 / 6
+		},
+		fire_explosion: {
+			frames: [0, 1, 2, 3, 4],
+			rate: 1 / 6,
+			loop: false,
+			trigger: 'endAnim'
+		},
+		missile_explosion: {
+			frames: [0, 1, 2, 3, 4, 5],
+			rate: 1 / 6,
+			loop: false,
+			trigger: 'endAnim'
 		}
 	});
 
@@ -318,7 +330,8 @@ function loadSamus(Q) {
 						y: posy,
 						vy: vY,
 						vx: vX,
-						damage: damage
+						damage: damage,
+						weapon: weapon
 					})
 				);
 			}

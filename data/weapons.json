@@ -68,5 +68,12 @@
         "tilew": 16,
         "tileh": 16,
         "frames": 1
+    },
+    "fire_explosion": {
+        "sx": 160,
+        "sy": 0,
+        "tilew": 16,
+        "tileh": 16,
+        "frames": 5
     }
 }
