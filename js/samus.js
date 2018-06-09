@@ -146,8 +146,6 @@ function loadSamus(Q) {
 					this.battle = true;
 				}
 			}
-
-			console.log(this.p.firerate);
 		},
 
 		duck: function () {
@@ -201,8 +199,10 @@ function loadSamus(Q) {
 			if (this.p.missile === true) {
 				if (this.p.selected_weapon === 'missile') {
 					this.p.selected_weapon = 'fire';
+					Q.stageScene('hud_missile', 4, {asset: "missileOff.png"});
 				} else {
 					this.p.selected_weapon = 'missile';
+					Q.stageScene('hud_missile', 4, {asset: "missileOn.png"});
 				}
 			}
 		},
@@ -226,7 +226,7 @@ function loadSamus(Q) {
 				switch (p.last_animation) {
 					case 'fire_down_left':
 						sprite = weapon + '_up_left';
-						posx = p.x - 28;
+						posx = p.x - 20;
 						posy = p.y - 25;
 						vY = -120;
 						vX = -170;
@@ -240,7 +240,7 @@ function loadSamus(Q) {
 						break;
 					case 'fire_down_right':
 						sprite = weapon + '_up_right';
-						posx = p.x + 28;
+						posx = p.x + 20;
 						posy = p.y - 25;
 						vY = -120;
 						vX = 170;
@@ -250,56 +250,56 @@ function loadSamus(Q) {
 						posx = p.x + 28;
 						posy = p.y - 30;
 						vY = -120;
-						vX = 240;
+						vX = 300;
 						break;
 					case 'run_left_up':
 						sprite = weapon + '_up_left';
-						posx = p.x - 28;
+						posx = p.x - 20;
 						posy = p.y - 30;
 						vY = -120;
-						vX = -240;
+						vX = -300;
 						break;
 					case 'run_left':
 						sprite = weapon + '_left';
-						posx = p.x - 35;
+						posx = p.x - 25;
 						posy = p.y - 3;
 						vY = 0;
 						vX = -240;
 						break;
 					case 'run_right':
 						sprite = weapon + '_right';
-						posx = p.x + 35;
+						posx = p.x + 25;
 						posy = p.y - 3;
 						vY = 0;
-						vX = 240;
+						vX = 300;
 						break;
 					case 'stand_left':
 						sprite = weapon + '_left';
-						posx = p.x - 28;
+						posx = p.x - 20;
 						posy = p.y - 3;
 						vY = 0;
-						vX = -240;
+						vX = -300;
 						break;
 					case 'stand_right':
 						sprite = weapon + '_right';
-						posx = p.x + 28;
+						posx = p.x + 20;
 						posy = p.y - 3;
 						vY = 0;
-						vX = 240;
+						vX = 300;
 						break;
 					case 'stand_down_left':
-						sprite = weapon + '_up_left';
-						posx = p.x - 28;
+						sprite = weapon + '_left';
+						posx = p.x - 20;
 						posy = p.y + 10;
 						vY = 0;
-						vX = -240;
+						vX = -300;
 						break;
 					case 'stand_down_right':
-						sprite = weapon + '_up_right';
-						posx = p.x + 28;
+						sprite = weapon + '_right';
+						posx = p.x + 20;
 						posy = p.y + 10;
 						vY = 0;
-						vX = 240;
+						vX = 300;
 						break;
 				}
 
@@ -348,13 +348,14 @@ function loadSamus(Q) {
 
 		checkLives: function (damage) {
 			this.p.lives -= damage;
+
+			aux = this.p.lives+".png";
+			Q.stageScene('hud_lives', 3, {asset: aux});
+			
 			// Muestra la pantalla de fin juego
 			if (this.p.lives <= 0)
 				this.trigger('destroy');
-			// Actualiza el HUD de Samus quitando una vida
-			else {
-
-			}
+		
 		},
 
 		// Controla el movimiento de Samus según su estado

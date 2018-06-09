@@ -47,6 +47,7 @@ window.addEventListener('load', function () {
 
 	loadKraid(Q);
 	loadKraidBullet(Q);
+	loadSpikes(Q);
 
 	loadDiagonal(Q);
 
@@ -127,6 +128,34 @@ window.addEventListener('load', function () {
 			})
 		);
 
+		var spikes1 = stage.insert(
+			new Q.Spikes({
+				x: 640,
+				y: 1800
+			})
+		);
+
+		var spikes2 = stage.insert(
+			new Q.Spikes({
+				x: 608,
+				y: 1800
+			})
+		);
+
+		var spikes3 = stage.insert(
+			new Q.Spikes({
+				x: 576,
+				y: 1800
+			})
+		);
+
+		var spikes4 = stage.insert(
+			new Q.Spikes({
+				x: 544,
+				y: 1800
+			})
+		);
+
 		stage.add('viewport').follow(samus);
 		stage.viewport.scale = 1;
 		stage.viewport.offsetY = 80;
@@ -153,6 +182,7 @@ window.addEventListener('load', function () {
 			Q.audio.stop('title.mp3');
 			Q.clearStages();
 			Q.stageScene('level1');
+			Q.stageScene('hud_lives', 3, {asset: "3.png"});
 		});
 	});
 
@@ -175,6 +205,7 @@ window.addEventListener('load', function () {
 		reset.on("click", function () {
 			Q.clearStages();
 			Q.stageScene('level1');
+			Q.stageScene('hud_lives', 3, {asset: "3.png"});
 		});
 
 		if (Q.state.get('save_game')) {
@@ -199,10 +230,51 @@ window.addEventListener('load', function () {
 		container.fit(20);
 	});
 
+	Q.scene('winGame',function(stage) {
+		var container = stage.insert(new Q.UI.Container({
+		  x: Q.width/2, y: Q.height/2, fill: "rgba(0,0,0,0.5)"
+		}));
+		
+		var button = container.insert(new Q.UI.Button({ asset:"ending.png" ,x: 0, y: 0, 
+		fill: "#CCCCCC", keyActionName: "confirm"}))
+	  
+		button.on("click",function() {
+		  Q.clearStages();
+		  Q.stageScene('mainMenu');
+		});
+	  });
+
+	  Q.scene('hud_lives',function(stage) {
+		var container = stage.insert(new Q.UI.Container({
+		  x: 30, y: 20
+		}));
+	
+		var button = container.insert(new Q.UI.Button({ asset: stage.options.asset ,x: 0, y: 0, 
+		fill: "#CCCCCC", }))
+		container.fit(16);
+	  });
+
+	  Q.scene('hud_missile',function(stage) {
+		var container = stage.insert(new Q.UI.Container({
+		  x: 30, y: 40
+		}));
+	
+		var button = container.insert(new Q.UI.Button({ asset: stage.options.asset ,x: 0, y: 0, 
+		fill: "#CCCCCC", }))
+		container.fit(16);
+	  });
+
 	Q.loadTMX(
-		'start2.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
+		'start2.png, Ending.png, 0.png, 1.png, 2.png, 3.png, missileOn.png, missileOff.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, spikes.png, spikes.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
 		function () {
 			Q.compileSheets('start2.png');
+			Q.compileSheets('Ending.png');
+			Q.compileSheets('0.png');
+			Q.compileSheets('1.png');
+			Q.compileSheets('2.png');
+			Q.compileSheets('3.png');
+			Q.compileSheets('missileOn.png');
+			Q.compileSheets('missileOff.png');
 			Q.compileSheets('samus.png', 'samus.json');
 			Q.compileSheets('weapons.png', 'weapons.json');
 			Q.compileSheets('rightdoor.png', 'rightdoor.json');
@@ -217,6 +289,7 @@ window.addEventListener('load', function () {
 			Q.compileSheets('kraid.png', 'kraid.json');
 			Q.compileSheets('kraid_bullets.png', 'kraid_bullets.json');
 			Q.compileSheets('kraid_claws.png', 'kraid_claws.json');
+			Q.compileSheets('spikes.png', 'spikes.json');
 			Q.stageScene("mainMenu");
 		}
 	);
@@ -248,6 +321,35 @@ window.addEventListener('load', function () {
 				y: 1648
 			})
 		);
+
+				var spikes1 = stage.insert(
+			new Q.Spikes({
+				x: 640,
+				y: 1800
+			})
+		);
+
+		var spikes2 = stage.insert(
+			new Q.Spikes({
+				x: 608,
+				y: 1800
+			})
+		);
+
+		var spikes3 = stage.insert(
+			new Q.Spikes({
+				x: 576,
+				y: 1800
+			})
+		);
+
+		var spikes4 = stage.insert(
+			new Q.Spikes({
+				x: 544,
+				y: 1800
+			})
+		);
+		
 		stage.add('viewport').follow(samus);
 		stage.viewport.scale = 1;
 		stage.viewport.offsetY = 80;
