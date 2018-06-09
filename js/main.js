@@ -296,11 +296,5 @@ window.addEventListener('load', function () {
 				y: 1616
 			})
 		);
-		stage.insert(
-			new Q.DoorL({
-				x: 1212,
-				y: 1616
-			})
-		);
 	}
 });
