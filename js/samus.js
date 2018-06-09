@@ -101,7 +101,8 @@ function loadSamus(Q) {
 				selected_weapon: 'fire', // Controla el arma seleccionada por el jugador
 				scale: 0.85,
 				lives: 3,
-				battle: false
+				battle: false,
+				firerate: true
 			});
 
 			this.add('2d, platformerControls, animation');
@@ -145,6 +146,8 @@ function loadSamus(Q) {
 					this.battle = true;
 				}
 			}
+
+			console.log(this.p.firerate);
 		},
 
 		duck: function () {
@@ -206,113 +209,119 @@ function loadSamus(Q) {
 
 		// Acción producida al disparar (Z)
 		fireWeapon: function () {
-			var p = this.p;
-			var posx,
-				posy,
-				vX,
-				vY,
-				sprite,
-				weapon = this.p.selected_weapon,
-				damage = 1;
+			if (this.p.firerate) {
+				this.p.firerate = false;
+				setTimeout(() => {
+					this.p.firerate = true;
+				}, 500);
+				var p = this.p;
+				var posx,
+					posy,
+					vX,
+					vY,
+					sprite,
+					weapon = this.p.selected_weapon,
+					damage = 1;
 
-			switch (p.last_animation) {
-				case 'fire_down_left':
-					sprite = weapon + '_up_left';
-					posx = p.x - 28;
-					posy = p.y - 25;
-					vY = -120;
-					vX = -170;
-					break;
-				case 'fire_down_stand_left':
-					sprite = weapon + '_up';
-					posx = p.x - 3;
-					posy = p.y - 35;
-					vY = -150;
-					vX = 0;
-					break;
-				case 'fire_down_right':
-					sprite = weapon + '_up_right';
-					posx = p.x + 28;
-					posy = p.y - 25;
-					vY = -120;
-					vX = 170;
-					break;
-				case 'run_right_up':
-					sprite = weapon + '_up_right';
-					posx = p.x + 28;
-					posy = p.y - 30;
-					vY = -120;
-					vX = 240;
-					break;
-				case 'run_left_up':
-					sprite = weapon + '_up_left';
-					posx = p.x - 28;
-					posy = p.y - 30;
-					vY = -120;
-					vX = -240;
-					break;
-				case 'run_left':
-					sprite = weapon + '_left';
-					posx = p.x - 35;
-					posy = p.y - 3;
-					vY = 0;
-					vX = -240;
-					break;
-				case 'run_right':
-					sprite = weapon + '_right';
-					posx = p.x + 35;
-					posy = p.y - 3;
-					vY = 0;
-					vX = 240;
-					break;
-				case 'stand_left':
-					sprite = weapon + '_left';
-					posx = p.x - 28;
-					posy = p.y - 3;
-					vY = 0;
-					vX = -240;
-					break;
-				case 'stand_right':
-					sprite = weapon + '_right';
-					posx = p.x + 28;
-					posy = p.y - 3;
-					vY = 0;
-					vX = 240;
-					break;
-				case 'stand_down_left':
-					sprite = weapon + '_up_left';
-					posx = p.x - 28;
-					posy = p.y + 10;
-					vY = 0;
-					vX = -240;
-					break;
-				case 'stand_down_right':
-					sprite = weapon + '_up_right';
-					posx = p.x + 28;
-					posy = p.y + 10;
-					vY = 0;
-					vX = 240;
-					break;
+				switch (p.last_animation) {
+					case 'fire_down_left':
+						sprite = weapon + '_up_left';
+						posx = p.x - 28;
+						posy = p.y - 25;
+						vY = -120;
+						vX = -170;
+						break;
+					case 'fire_down_stand_left':
+						sprite = weapon + '_up';
+						posx = p.x - 3;
+						posy = p.y - 35;
+						vY = -150;
+						vX = 0;
+						break;
+					case 'fire_down_right':
+						sprite = weapon + '_up_right';
+						posx = p.x + 28;
+						posy = p.y - 25;
+						vY = -120;
+						vX = 170;
+						break;
+					case 'run_right_up':
+						sprite = weapon + '_up_right';
+						posx = p.x + 28;
+						posy = p.y - 30;
+						vY = -120;
+						vX = 240;
+						break;
+					case 'run_left_up':
+						sprite = weapon + '_up_left';
+						posx = p.x - 28;
+						posy = p.y - 30;
+						vY = -120;
+						vX = -240;
+						break;
+					case 'run_left':
+						sprite = weapon + '_left';
+						posx = p.x - 35;
+						posy = p.y - 3;
+						vY = 0;
+						vX = -240;
+						break;
+					case 'run_right':
+						sprite = weapon + '_right';
+						posx = p.x + 35;
+						posy = p.y - 3;
+						vY = 0;
+						vX = 240;
+						break;
+					case 'stand_left':
+						sprite = weapon + '_left';
+						posx = p.x - 28;
+						posy = p.y - 3;
+						vY = 0;
+						vX = -240;
+						break;
+					case 'stand_right':
+						sprite = weapon + '_right';
+						posx = p.x + 28;
+						posy = p.y - 3;
+						vY = 0;
+						vX = 240;
+						break;
+					case 'stand_down_left':
+						sprite = weapon + '_up_left';
+						posx = p.x - 28;
+						posy = p.y + 10;
+						vY = 0;
+						vX = -240;
+						break;
+					case 'stand_down_right':
+						sprite = weapon + '_up_right';
+						posx = p.x + 28;
+						posy = p.y + 10;
+						vY = 0;
+						vX = 240;
+						break;
+				}
+
+				if (weapon == 'missile') {
+					damage = 3;
+					Q.audio.play('missile.mp3');
+				} else {
+					Q.audio.play('shoot.mp3');
+				}
+
+				this.stage.insert(
+					new Q.Munition({
+						sprite: sprite,
+						sheet: sprite,
+						x: posx,
+						y: posy,
+						vy: vY,
+						vx: vX,
+						damage: damage
+					})
+				);
 			}
-
-			if (weapon == 'missile') {
-				damage = 3;
-				Q.audio.play('missile.mp3');
-			} else {
-				Q.audio.play('shoot.mp3');
-			}
-
-			this.stage.insert(
-				new Q.Munition({
-					sprite: sprite,
-					sheet: sprite,
-					x: posx,
-					y: posy,
-					vy: vY,
-					vx: vX,
-					damage: damage
-				})
-			);
 		},
 
 		// Controla la velocidad de Samus según su estado

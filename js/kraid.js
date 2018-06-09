@@ -14,12 +14,9 @@ function loadKraid(Q) {
 		init: function (p) {
 			this._super(p, {
 				sprite: 'kraid animation',
-				/**
-				 * Sprite del Skree.
-				 */
 				sheet: 'kraid',
 				bullet_cd: 0,
-				lives: 10
+				lives: 30
 			});
 			/**
 			 * Los módulos Quintus necesarios.
@@ -34,57 +31,68 @@ function loadKraid(Q) {
 		},
 
 		die: function () {
+			Q.audio.stop('kraid-battle.mp3');
+			Q.audio.play('credits.mp3');
 			this.destroy();
 		},
 
 		/**
-		* Función que se dispara al ser golpeado
-		*/
+		 * Función que se dispara al ser golpeado
+		 */
 		hit: function (collision) {
 			if (collision.obj.isA('Munition')) {
 				this.p.lives -= collision.obj.p.damage;
-				if (this.p.lives <=0) {
+				if (this.p.lives % 5 == 0) Q.audio.play('kraid.mp3');
+				if (this.p.lives <= 0) {
 					this.trigger('die');
 				}
-			}
-			else if(collision.obj.isA('Samus')){
+			} else if (collision.obj.isA('Samus')) {
 				collision.obj.checkLives(this.p.damage);
 			}
 		},
 
-		bullet1: function(){
-        	var bullet1 = new Q.KraidBullet({x: this.p.x + 112, y: this.p.y - 10, vx: +100});
+		bullet1: function () {
+			var bullet1 = new Q.KraidBullet({
+				x: this.p.x + 112,
+				y: this.p.y - 10,
+				vx: +100
+			});
 			this.stage.insert(bullet1);
-        },
+		},
 
-        bullet2: function(){
-        	var bullet2 = new Q.KraidBullet({x: this.p.x + 112, y: this.p.y + 50, vx: +100});
+		bullet2: function () {
+			var bullet2 = new Q.KraidBullet({
+				x: this.p.x + 112,
+				y: this.p.y + 50,
+				vx: +100
+			});
 			this.stage.insert(bullet2);
-        },
+		},
 
-		bullet3: function(){
-        	var bullet3 = new Q.KraidBullet({x: this.p.x + 112, y: this.p.y + 118, vx: +100});
+		bullet3: function () {
+			var bullet3 = new Q.KraidBullet({
+				x: this.p.x + 112,
+				y: this.p.y + 118,
+				vx: +100
+			});
 			this.stage.insert(bullet3);
-        },
+		},
 
 		step: function (dt) {
 			this.play('live');
 
-			if(this.p.bullet_cd == 60) {
-			 	this.trigger('bullet1');
-			 	this.p.bullet_cd++;
-            }
-            else if(this.p.bullet_cd == 120) {
-			 	this.trigger('bullet3');
-			 	this.p.bullet_cd++;
-            }
-            else if(this.p.bullet_cd == 200) {
-			 	this.trigger('bullet2');
-            	this.p.bullet_cd = 0;
-            }
-            else {
-            	this.p.bullet_cd++;
-            }
+			if (this.p.bullet_cd == 60) {
+				this.trigger('bullet1');
+				this.p.bullet_cd++;
+			} else if (this.p.bullet_cd == 120) {
+				this.trigger('bullet3');
+				this.p.bullet_cd++;
+			} else if (this.p.bullet_cd == 200) {
+				this.trigger('bullet2');
+				this.p.bullet_cd = 0;
+			} else {
+				this.p.bullet_cd++;
+			}
 		}
 
 	});
