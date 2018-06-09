@@ -108,7 +108,9 @@ function loadSamus(Q) {
 
 			// Trigger de la animacion al morir
 			this.on('destroy', function () {
-				Q.stageScene('endGame', 1, {label: "Has muerto"});
+				Q.stageScene('endGame', 1, {
+					label: "Has muerto"
+				});
 				this.p.hidden = true;
 			});
 
@@ -316,8 +318,8 @@ function loadSamus(Q) {
 		// Controla la velocidad de Samus según su estado
 		checkVelocity: function () {
 
-				// Si Samus ha ocultado al morir no se permite mover
-			if(this.p.hidden){
+			// Si Samus ha ocultado al morir no se permite mover
+			if (this.p.hidden) {
 				this.p.vx = 0;
 				this.p.vy = 0;
 			}
@@ -335,13 +337,13 @@ function loadSamus(Q) {
 			if (this.p.state < 3 && Q.inputs['up']) this.p.vy = 0;
 		},
 
-		checkLives: function(damage){
+		checkLives: function (damage) {
 			this.p.lives -= damage;
 			// Muestra la pantalla de fin juego
-			if(this.p.lives <= 0)
+			if (this.p.lives <= 0)
 				this.trigger('destroy');
 			// Actualiza el HUD de Samus quitando una vida
-			else{
+			else {
 
 			}
 		},
