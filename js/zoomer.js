@@ -113,7 +113,6 @@ function loadZoomer(Q) {
 			}
 			else if(collision.obj.isA('Samus')){
 				collision.obj.checkLives(this.p.damage);
-				this.trigger('die');
 			}
 		},
 
