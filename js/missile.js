@@ -13,6 +13,7 @@ function loadMissile(Q) {
 				Q.audio.stop('zebes.mp3');
 				Q.audio.play('powerup.mp3');
 				collision.obj.p.missile = true;
+				Q.stageScene('hud_missile', 4, {asset: "missileOff.png"});
 				this.destroy();
 				setTimeout(function () {
 					Q.audio.play('zebes.mp3');

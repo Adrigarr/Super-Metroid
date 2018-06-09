@@ -201,8 +201,10 @@ function loadSamus(Q) {
 			if (this.p.missile === true) {
 				if (this.p.selected_weapon === 'missile') {
 					this.p.selected_weapon = 'fire';
+					Q.stageScene('hud_missile', 4, {asset: "missileOff.png"});
 				} else {
 					this.p.selected_weapon = 'missile';
+					Q.stageScene('hud_missile', 4, {asset: "missileOn.png"});
 				}
 			}
 		},
@@ -348,13 +350,14 @@ function loadSamus(Q) {
 
 		checkLives: function (damage) {
 			this.p.lives -= damage;
+
+			aux = this.p.lives+".png";
+			Q.stageScene('hud_lives', 3, {asset: aux});
+			
 			// Muestra la pantalla de fin juego
 			if (this.p.lives <= 0)
 				this.trigger('destroy');
-			// Actualiza el HUD de Samus quitando una vida
-			else {
-
-			}
+		
 		},
 
 		// Controla el movimiento de Samus según su estado
