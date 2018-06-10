@@ -137,5 +137,8 @@ El trabajo de todos los miembros del grupo ha sido completamente equitativo (33%
     
 - La mayoría de sprites del juego han sido sacados de la siguiente página web: https://www.spriters-resource.com/snes/smetroid/
 - Los sprites utilizados para los piratas espaciales y Kraid proceden de esta página: http://tsgk.captainn.net/index.php?p=search&q=enemy
+- Imagen Back Screen ---> http://www.kinyu-z.net/WDF-792693.html
+- Imagen Start Screen ---> https://www.pinterest.com.mx/source/tokkoro.com/
+- Sonidos ---> https://www.youtube.com/user/M17C4/playlists
 - A la hora de implementar las mecánicas de Samus, se jugó a esta versión online del juego: https://www.retrogames.cz/play_767-SNES.php
 
