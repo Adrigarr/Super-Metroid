@@ -362,12 +362,18 @@ function loadSamus(Q) {
 		checkLives: function (damage) {
 			this.p.lives -= damage;
 
-			aux = this.p.lives+".png";
-			Q.stageScene('hud_lives', 3, {asset: aux});
-			
 			// Muestra la pantalla de fin juego
-			if (this.p.lives <= 0)
+			if (this.p.lives <= 0) {
+				Q.stageScene('hud_lives', 3, {asset: '0.png'});
 				this.trigger('destroy');
+			}
+
+			else {
+				aux = this.p.lives+".png";
+				Q.stageScene('hud_lives', 3, {asset: aux});
+			}
+			
+			
 		
 		},
 

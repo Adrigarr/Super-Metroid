@@ -57,7 +57,7 @@ function loadKraid(Q) {
 			var bullet1 = new Q.KraidBullet({
 				x: this.p.x + 112,
 				y: this.p.y - 10,
-				vx: +100
+				vx: 100
 			});
 			this.stage.insert(bullet1);
 		},
@@ -66,7 +66,7 @@ function loadKraid(Q) {
 			var bullet2 = new Q.KraidBullet({
 				x: this.p.x + 112,
 				y: this.p.y + 50,
-				vx: +100
+				vx: 100
 			});
 			this.stage.insert(bullet2);
 		},
@@ -75,7 +75,7 @@ function loadKraid(Q) {
 			var bullet3 = new Q.KraidBullet({
 				x: this.p.x + 112,
 				y: this.p.y + 118,
-				vx: +100
+				vx: 100
 			});
 			this.stage.insert(bullet3);
 		},

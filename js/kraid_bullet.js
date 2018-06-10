@@ -22,7 +22,9 @@ function loadKraidBullet(Q) {
 	        this.add('2d, animation');
 
 	        this.on("hit", function (collision) {
-				if (!collision.obj.isA('KraidBullet')) {
+
+	        	this.p.vx = 100;
+				if (!collision.obj.isA('Munition')) {
 					this.destroy();
 
 					if(collision.obj.isA("Samus"))

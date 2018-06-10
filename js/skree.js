@@ -46,8 +46,10 @@ function loadSkree(Q) {
 			 * Definición de las funciones adicionales.
 			 */
 			//this.on('bump.bottom', this, 'bottom');
-			this.on('bump.bottom, bump.right, bump.left', this, 'die'); // WIP cambiar cuando se implemente el sistema de vidas
+			this.on('bump.bottom, bump.right, bump.left', this, 'die');
 			this.on('die');
+
+			this.play('live');
 		},
 		/**
 		 * Muere el Skree.
@@ -103,10 +105,7 @@ function loadSkree(Q) {
 					Q.audio.play('skree.mp3');
 					this.p.vy = 275;
 					this.p.vx = 175;
-				} else {
-					this.play('live');
 				}
-
 			}
 		}
 	});

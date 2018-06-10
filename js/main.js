@@ -106,13 +106,21 @@ window.addEventListener('load', function() {
 			})
 		);
 
-		var skree = stage.insert(
+		var skree1 = stage.insert(
 			new Q.Skree({
-				x: 2144,
+				x: 2160,
 				y: 334
 			})
 		);
-		var space_pirate = stage.insert(
+
+		var skree2 = stage.insert(
+			new Q.Skree({
+				x: 2120,
+				y: 334
+			})
+		);
+
+		var space_pirate1 = stage.insert(
 			new Q.SpacePirate({
 				x: 1700,
 				y: 1672,
@@ -121,6 +129,17 @@ window.addEventListener('load', function() {
 				stop_left: 1675
 			})
 		);
+
+		var space_pirate2 = stage.insert(
+			new Q.SpacePirate({
+				x: 2510,
+				y: 1643,
+				array: 0,
+				stop_right: 2570,
+				stop_left: 2460
+			})
+		);
+
 		var kraid = stage.insert(
 			new Q.Kraid({
 				x: 438,
@@ -350,7 +369,6 @@ window.addEventListener('load', function() {
 		});
 
 		missiles = Q.state.get('hasMissile');
-		console.log(missiles);
 
 		var samus = stage.insert(
 			new Q.Samus({
@@ -360,13 +378,23 @@ window.addEventListener('load', function() {
 				y: 1547.6
 			})
 		);
-		var space_pirate = stage.insert(
+		var space_pirate1 = stage.insert(
 			new Q.SpacePirate({
 				x: 1700,
 				y: 1672,
 				array: 0,
 				stop_right: 1760,
 				stop_left: 1675
+			})
+		);
+
+		var space_pirate2 = stage.insert(
+			new Q.SpacePirate({
+				x: 2510,
+				y: 1643,
+				array: 0,
+				stop_right: 2570,
+				stop_left: 2460
 			})
 		);
 		var kraid = stage.insert(
