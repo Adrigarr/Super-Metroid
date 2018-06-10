@@ -63,7 +63,8 @@ window.addEventListener('load', function() {
 		loadDoors(stage);
 
 		Q.state.set({
-			save_game: false
+			save_game: false,
+			hasMissile: false
 		});
 
 		stage.insert(new Q.Ball());
@@ -228,6 +229,8 @@ window.addEventListener('load', function() {
 				Q.clearStages();
 				Q.stageScene('load_game');
 				Q.stageScene('hud_lives', 3, { asset: '3.png' });
+				if (Q.state.get('hasMissile'))
+					Q.stageScene('hud_missile', 4, {asset: "missileOff.png"});
 			});
 		}
 		var label = container.insert(
@@ -305,10 +308,10 @@ window.addEventListener('load', function() {
 	});
 
 	Q.loadTMX(
-		'start2.png, Ending.png, 0.png, 1.png, 2.png, 3.png, missileOn.png, missileOff.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, missile_explosion.png, missile_explosion.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, spikes.png, spikes.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
+		'start2.png, ending.png, 0.png, 1.png, 2.png, 3.png, missileOn.png, missileOff.png, samus.png, samus.json, weapons.png, weapons.json, rightdoor.png, rightdoor.json, leftdoor.png, leftdoor.json, ball.png, ball.json, missile.png, missile.json, missile_explosion.png, missile_explosion.json, zoomer.png, zoomer.json, zoomer_wall.png, zoomer_wall.json, skree.png, skree.json, space_pirate.png, space_pirate.json, space_pirate_projectile.png, space_pirate_projectile.json, kraid.png, kraid.json, kraid_bullets.png, kraid_bullets.json, kraid_claws.png, kraid_claws.json, spikes.png, spikes.json, zebes.tmx, zebes.mp3, shoot.mp3, open.mp3, close.mp3, jump.mp3, powerup.mp3, kraid-battle.mp3, missile.mp3, skree.mp3, space-pirate-proyectile.mp3, damage.mp3, save.mp3, title.mp3, kraid.mp3, credits.mp3',
 		function () {
 			Q.compileSheets('start2.png');
-			Q.compileSheets('Ending.png');
+			Q.compileSheets('ending.png');
 			Q.compileSheets('0.png');
 			Q.compileSheets('1.png');
 			Q.compileSheets('2.png');
@@ -346,9 +349,12 @@ window.addEventListener('load', function() {
 			loop: true
 		});
 
+		missiles = Q.state.get('hasMissile');
+		console.log(missiles);
+
 		var samus = stage.insert(
 			new Q.Samus({
-				misille: Q.state.get('hasMissile'),
+				missile: missiles,
 				ball: true,
 				x: 3402.525,
 				y: 1547.6
