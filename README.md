@@ -122,3 +122,19 @@ Hemos adoptado un diseño modular para la implementación del proyecto con el fi
 - Jose Javier Escudero Gómez - josejesc@ucm.es
 - Pablo Verdugo Garrido - pverdu01@ucm.es
 
+> Adrián Garrido Sierra
+    Ha sido el encargado de implementar todos los enemigos, incluido el jefe final, que aparecen a lo largo del juego. Esta tarea no solo supuso diseñar las mecánicas de cada tipo de enemigo basándose en las mecánicas originales, sino que también supuso una gran labor de retoque digital para adaptar todos los sprites necesarios para animar a estas entidades. También ha sido el encargado de dividir todo el código en diferentes scripts el día después de realizar la presentación del proyecto.
+    
+> José Javier Escudero Gómez
+    Ha sido el encargado de implementar las mecánicas de Samus y los proyectiles que esta dispara. Al igual que Adrián, este trabajo no supuso tan solo diseñar las mecánicas del personaje jugable basándose en las que fueron escogidas del juego original, sino que también tuvo que dedicar una gran cantidad de tiempo para editar todos los sprites de las distintas animaciones de Samus. También ha sido el encargado de crear las escenas de inicio, muerte y créditos del juego, así como también ha creado el sistema de guardado.
+    
+> Pablo Verdugo Garrido
+    Ha sido el encargado de diseñar el mapa del juego y los power-ups con los que Samus puede interactuar. El escenario de juego fue diseñado completamente a mano tomando como referencia el primer nivel del juego, lo cual no fue para nada sencillo al tratarse de un espacio bastante amplio. Una vez montado el mapa, se encargó de ajustar el sistema de colisiones de este contra Samus y de crear el sistema de teletransporte entre las distintas puertas que unen todo el mapa como en el juego original.
+    
+El trabajo de todos los miembros del grupo ha sido completamente equitativo (33% de esfuerzo para cada uno) tratando de ajustar una carga de trabajo similar en todos los hitos de proyecto marcados.
+    
+# Referencias:
+    
+- Todos los sprites del juego han sido sacados de la siguiente página web: https://www.spriters-resource.com/snes/smetroid/
+- A la hora de implementar las mecánicas de Samus, se jugó a esta versión online del juego: https://www.retrogames.cz/play_767-SNES.php
+
