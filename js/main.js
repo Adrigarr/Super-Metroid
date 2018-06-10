@@ -199,6 +199,7 @@ window.addEventListener('load', function() {
 			})
 		);
 
+		Q.audio.stop('credits.mp3');
 		Q.audio.play('title.mp3');
 
 		button.on('click', function() {

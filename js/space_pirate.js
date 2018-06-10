@@ -203,17 +203,21 @@ function loadSpacePirate(Q) {
 
 				if (Q('Samus')) {
 					var distance = this.p.x - Q('Samus').items[0].p.x;
+					var distance2 = this.p.y - Q('Samus').items[0].p.y;
+
+					console.log(distance2);
 				} else {
 					var distance = 0;
+					var distance2 = 1000000;
 				}
 
 				// Si Samus se acerca por la izquierda
-				if (distance < 100 && distance > 0) {
+				if (distance < 100 && distance > 0 && distance2 < 150) {
 					this.p.patroling = false;
 					this.trigger('fire_left');
 				}
 				// Si Samus se acerca por la derecha
-				else if (distance > -100 && distance < 0) {
+				else if (distance > -100 && distance < 0 && distance2 < 150) {
 					this.p.patroling = false;
 					this.trigger('fire_right');
 				} else if (distance > 280) {
