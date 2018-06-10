@@ -51,6 +51,41 @@ El proyecto consiste en recrear el inicio del planeta Zebes, primer nivel del ju
 Batalla contra Kraid con misiles
 
 
+# Diseño del juego
+
+1. Objetivo del juego
+    - Cómo ganar: Para ganar Samus deberá atravesar todo el nivel hasta llegar a la sala del boss y derrotar a Kraid.
+    - Cómo perder: Se pierde la partida cuando Samus se queda sin vida cuando algún enemigo le hace daño.
+
+2. Mecánicas principales
+    - Plataformeo: La saga metroid es del género plataformas, por lo que las zonas de plataformeo son esenciales. Durante el juego se pueden obtener mejoras del salto base que permiten acceder a nuevas zonas del nivel, sin embargo al ser un nivel sencillo solo hemos implementado el salto básico y nos hemos centrado más en las mejoras del traje.
+    - Mejoras del traje: Hemos implementado dos mejoras, la morfoesfera y los misiles. La morfoesfera es necesario obtenerla para poder llegar a la sala del boss, los misiles son opcionales pero ayudan mucho en la pelea contra Kraid, deberás obtener antes la morfoesfera para poder acceder a ellos.
+    - Combate contra enemigos: En la saga metroid hay varios enemigos en el recorrido del nivel que al vencerlos dan a Samus más vida o munición de misiles. Nosotros hemos implementado tres tipos de enemigos y un boss final descritos en la sección de personajes.
+    - Punto de guardado: Hay un punto de guardado antes de llegar a la sala del boss, cuando Samus guarda la partida, al morir, no tendrá que volver a recorrer todo en nivel desde el principio si no que aparecerá en la sala de guardado. 
+
+
+3. Personajes
+
+    - Samus: Protagonista del juego, se mueve utilizando las flechas de dirección derecha e izquierda, con la flecha de arriba salta y con la debajo se agacha, si ya ha obtenido la mejora de la morfoesfera, al pulsar dos veces la flecha de abajo, se transforma en morfoesfera. Con el espacio dispara, si se ha  obtenido la mejora de los misiles, con el botón enter se podrá cambiar de tipo de munición entre balas normales y misiles. Si se pulsa el botón S se podra apuntar en diagonal.
+    
+        ![Samus](https://thumbs.gfycat.com/ImmaterialDefiantGar-max-1mb.gif)
+    
+    - Skree: Es un enemigo parecido a un murciélago que al ver a Samus se lanzará hacia ella como un kamikaze. Si choca contra el suelo morirá y si choca contra Samus le quitará un tercio del tanque de vida.
+    
+        ![Skree](https://i.gifer.com/fetch/w300-preview/90/9024104d05be2162ad1bfd3c03c31ea6.gif)
+    
+    - Zoomer: Es un enemigo con un aspecto similar a un erizo que camina por el suelo o las paredes, al chocar contra él Samus pierde un tercio del tanque de vida.
+    
+        ![Zoomer](https://i.ytimg.com/vi/juGDUgcfSaw/hqdefault.jpg)
+   
+    - Pirata Espacial: Un enemigo con aspecto de mantis humanoide, patrulla una pequeña zona y al ver a Samus le dispara un rayo que si colisiona con ella le quitará un tercio del tanque de vida.
+    
+        ![Pirata Espacial](https://vignette.wikia.nocookie.net/metroid/images/1/1f/ZEBESIAN_SPACE_PIRATES.jpg/revision/latest?cb=20051229165931)
+    
+    - Kraid: Es el boss final, un enemigo con aspecto de dinosaurio que lanza pinchos desde su estómago, que al colisionar con Samus le quitarán dos tercios del tanque de vida. Es el enemigo con ams vida del nivel.
+    
+        ![Kraid](https://i.ytimg.com/vi/ExWFGqDTQ_M/hqdefault.jpg)
+
 # Miembros del grupo:
 
 - Adrián Garrido Sierra - adrigarr@ucm.es
