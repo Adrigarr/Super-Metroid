@@ -55,14 +55,14 @@ function loadZoomer(Q) {
 				 */
 				die: false,
 				collision: false,
-				damage: 2,
+				damage: 1,
 				lives: 2,
 				wall: false
 			});
 			/**
 			 * Los módulos Quintus necesarios.
 			 */
-			if(!this.p.wall)
+			if (!this.p.wall)
 				this.add('2d, animation, aiBounce');
 			else {
 				this.add('2d, animation');
@@ -73,7 +73,7 @@ function loadZoomer(Q) {
 			 * Definición de las funciones adicionales.
 			 */
 			this.on('bump.left, bump.right, bump.top, bump.bottom', this, 'hit');
-			
+
 			this.on('die');
 		},
 		/**
@@ -90,14 +90,14 @@ function loadZoomer(Q) {
 		goDown: function (collision) {
 			if (!collision.obj.isA('Munition') && !collision.obj.isA('Samus')) {
 				this.p.vy = 50;
-				
+
 			}
 		},
 
 		goUp: function (collision) {
 			if (!collision.obj.isA('Munition') && !collision.obj.isA('Samus')) {
 				this.p.vy = -50;
-				
+
 			}
 		},
 
@@ -107,11 +107,10 @@ function loadZoomer(Q) {
 		hit: function (collision) {
 			if (collision.obj.isA('Munition')) {
 				this.p.lives -= collision.obj.p.damage;
-				if (!this.p.collision && this.p.lives <=0) {
+				if (!this.p.collision && this.p.lives <= 0) {
 					this.trigger('die');
 				}
-			}
-			else if(collision.obj.isA('Samus')){
+			} else if (collision.obj.isA('Samus')) {
 				collision.obj.checkLives(this.p.damage);
 			}
 		},
@@ -127,5 +126,5 @@ function loadZoomer(Q) {
 			}
 		}
 	});
-	
+
 }

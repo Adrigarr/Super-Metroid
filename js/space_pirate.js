@@ -55,7 +55,7 @@ function loadSpacePirate(Q) {
 				die: false,
 				collision: false,
 				deltaTime: 60,
-				damage: 2,
+				damage: 1,
 				lives: 2
 			});
 			/**
@@ -90,11 +90,10 @@ function loadSpacePirate(Q) {
 		hit: function (collision) {
 			if (collision.obj.isA('Munition')) {
 				this.p.lives -= collision.obj.p.damage;
-				if (!this.p.collision && this.p.lives <=0) {
+				if (!this.p.collision && this.p.lives <= 0) {
 					this.trigger('die');
 				}
-			}
-			else if(collision.obj.isA('Samus')){
+			} else if (collision.obj.isA('Samus')) {
 				collision.obj.checkLives(this.p.damage);
 			}
 		},
@@ -152,7 +151,7 @@ function loadSpacePirate(Q) {
 				});
 				this.stage.insert(projectile);
 				this.p.deltaTime = 0;
-				
+
 			} else {
 				this.p.deltaTime = this.p.deltaTime + 1;
 			}

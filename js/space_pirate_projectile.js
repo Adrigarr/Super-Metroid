@@ -18,7 +18,7 @@ function loadSpacePirateProjectile(Q) {
 				vy: 0,
 				scale: 0.6,
 				gravity: false,
-				damage: 2
+				damage: 1
 			});
 
 			this.add('2d, animation');
@@ -26,7 +26,7 @@ function loadSpacePirateProjectile(Q) {
 			this.on('hit', function (collision) {
 				if (!collision.obj.isA('SpacePirateProjectile') && !collision.obj.isA('SpacePirate')) {
 					this.destroy();
-					if(collision.obj.isA('Samus')){
+					if (collision.obj.isA('Samus')) {
 						collision.obj.checkLives(this.p.damage);
 					}
 				}
@@ -37,5 +37,5 @@ function loadSpacePirateProjectile(Q) {
 			this.play('fire');
 		}
 	});
-	
+
 }
