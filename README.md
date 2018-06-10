@@ -85,6 +85,36 @@ Batalla contra Kraid con misiles
     - Kraid: Es el boss final, un enemigo con aspecto de dinosaurio que lanza pinchos desde su estómago, que al colisionar con Samus le quitarán dos tercios del tanque de vida. Es el enemigo con ams vida del nivel.
     
         ![Kraid](https://i.ytimg.com/vi/ExWFGqDTQ_M/hqdefault.jpg)
+        
+# Diseño de la implementación
+
+Hemos adoptado un diseño modular para la implementación del proyecto con el fin de facilitar su comprensión, empezando por un sistema de carpetas que mantienen separados los diferentes archivos en función de su tipo:
+
+> Carpeta lib:
+    Esta carpeta recoge todos los archivos con extensión .js que conforman el motor Quintus. Son los mismos que se facilitan en la asignatura para la realización de las prácticas y no han sido modificados durante la realización del proyecto.
+    
+> Carpeta audio:
+    Aquí se recogen todas las pistas de audio utilizadas en el proyecto en formato .mp3
+    
+> Carpeta images:
+    Contiene todas las imágenes en formato .png empleadas en el proyecto, desde las pantallas de inicio y fin hasta los sprites de cada uno de los personajes y objetos que aparecen en el nivel.
+    
+> Carpeta data:
+    Aquí se guardan los archivos .json que permiten utilizar las imágenes anteriormente mencionadas dentro del código como sheets, permitiendo manipular los distintos frames de los sprites para reproducir animaciones. También se encuentra en esta carpeta el mapa en formato .tmx, creado con el programa Tiled.
+    
+> Carpeta js
+    Esta carpeta reúne todos los archivos que contienen el código JavaScript que conforman el código principal del proyecto. En una primera versión este código estaba reunido en un único archivo .js, pero decidimos separarlo en varios archivos en función de los componentes que contiene cada uno:  
+    
+    - Cuerpo principal (main.js): Desde este archivo se cargan los recursos contenidos en el resto de archivos y se compilan las sheets del juego, además de configurar las diferentes scenes. También hay algún fragmento de código que era demasiado general para incluirlo en otro lugar.
+    - samus.js: Este archivo contiene la clase entera de Samus (el personaje controlado por el jugador) donde se gestionan todas sus funciones y también todas sus animaciones.
+    - Mejoras del traje (ball.js y missile.js): En estos dos archivos se encuentran las clases de las dos mejoras para el traje de Samus que se obtienen durante el nivel: la morfoesfera y los misiles.
+    - Enemigos (zoomer.js, skree.js, space_pirate.js): Siguen la misma estructura de samus.js. En cada uno de estos archivos se encuentra la clase correspondiente al enemigo concreto junto a la gestión de sus animaciones.
+    - Jefe final (kraid.js): Contiene la clase del enemigo final del nivel y sus animaciones.
+    - Proyectiles (munition.js, space_pirate_projectile.js y kraid_bullet.js): En estos archivos se encuentran las clases correspondientes a los distintos tipos de proyectiles del nivel: los disparos de Samus (tanto los misiles como los disparos normales utilizan la misma clase cambiando algunos parámetros), los rayos disparados por los piratas espaciales y los proyectiles disparados por Kraid. Su funcionamiento es muy similar entre sí.
+    - Puertas (door_l.js y door_r.js): Aquí se encuentran las clases de las puertas en ambas direcciones que se encuentran en varios puntos del mapa.
+    - diagonal.js: Este archivo contiene una clase cuya función es gestionar las colisiones en las cuestas del escenario para que sean más suaves.
+    - save.js: Esta clase se corresponde con el tanque en el que se guarda la partida cuando Samus se coloca en su interior. Guarda el estado del juego.
+    - spikes.js: En este archivo se encuentra la clase correspondiente a los pinchos que se encuentran a los pies de Kraid y la gestión de su sprite. Su funcionamiento y estructura es muy similar al de otros enemigos y, por lo tanto, se puede considerar como un cuarto tipo de enemigo, aunque en este caso es solo un objeto inanimado que hace daño a Samus cuando lo pisa.
 
 # Miembros del grupo:
 
