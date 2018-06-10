@@ -90,19 +90,19 @@ Batalla contra Kraid con misiles
 
 Hemos adoptado un diseño modular para la implementación del proyecto con el fin de facilitar su comprensión, empezando por un sistema de carpetas que mantienen separados los diferentes archivos en función de su tipo:
 
-> Carpeta lib:
+- Carpeta lib:
     Esta carpeta recoge todos los archivos con extensión .js que conforman el motor Quintus. Son los mismos que se facilitan en la asignatura para la realización de las prácticas y no han sido modificados durante la realización del proyecto.
     
-> Carpeta audio:
+- Carpeta audio:
     Aquí se recogen todas las pistas de audio utilizadas en el proyecto en formato .mp3
     
-> Carpeta images:
+- Carpeta images:
     Contiene todas las imágenes en formato .png empleadas en el proyecto, desde las pantallas de inicio y fin hasta los sprites de cada uno de los personajes y objetos que aparecen en el nivel.
     
-> Carpeta data:
+- Carpeta data:
     Aquí se guardan los archivos .json que permiten utilizar las imágenes anteriormente mencionadas dentro del código como sheets, permitiendo manipular los distintos frames de los sprites para reproducir animaciones. También se encuentra en esta carpeta el mapa en formato .tmx, creado con el programa Tiled.
     
-> Carpeta js
+- Carpeta js
     Esta carpeta reúne todos los archivos que contienen el código JavaScript que conforman el código principal del proyecto. En una primera versión este código estaba reunido en un único archivo .js, pero decidimos separarlo en varios archivos en función de los componentes que contiene cada uno:  
     
     - Cuerpo principal (main.js): Desde este archivo se cargan los recursos contenidos en el resto de archivos y se compilan las sheets del juego, además de configurar las diferentes scenes. También hay algún fragmento de código que era demasiado general para incluirlo en otro lugar.
@@ -135,6 +135,7 @@ El trabajo de todos los miembros del grupo ha sido completamente equitativo (33%
     
 # Referencias:
     
-- Todos los sprites del juego han sido sacados de la siguiente página web: https://www.spriters-resource.com/snes/smetroid/
+- La mayoría de sprites del juego han sido sacados de la siguiente página web: https://www.spriters-resource.com/snes/smetroid/
+- Los sprites utilizados para los piratas espaciales y Kraid proceden de esta página: http://tsgk.captainn.net/index.php?p=search&q=enemy
 - A la hora de implementar las mecánicas de Samus, se jugó a esta versión online del juego: https://www.retrogames.cz/play_767-SNES.php
 
