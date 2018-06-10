@@ -34,6 +34,8 @@ function loadKraid(Q) {
 			Q.audio.stop('kraid-battle.mp3');
 			Q.audio.play('credits.mp3');
 			this.destroy();
+			Q.clearStages();
+			Q.stageScene('winGame');
 		},
 
 		/**

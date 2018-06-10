@@ -227,6 +227,7 @@ window.addEventListener('load', function() {
 			load.on('click', function() {
 				Q.clearStages();
 				Q.stageScene('load_game');
+				Q.stageScene('hud_lives', 3, { asset: '3.png' });
 			});
 		}
 		var label = container.insert(
